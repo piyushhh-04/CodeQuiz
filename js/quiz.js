@@ -94,7 +94,7 @@ class QuizApp {
     init() {
         this.loadSubjects();
         this.setupEventListeners();
-        this.tryRestoreQuizState();
+        clearQuizState(); // Always start fresh — don't resume mid-quiz
     }
 
     // ====== Quiz State Persistence ======
