@@ -664,7 +664,15 @@ class QuizApp {
         const container = document.getElementById('answer-review-list');
         container.innerHTML = '';
 
-        this.userAnswers.forEach((answer, i) => {
+        // Only show wrong and timed-out answers
+        const wrongAnswers = this.userAnswers.filter(a => !a.isCorrect);
+
+        if (wrongAnswers.length === 0) {
+            container.innerHTML = '<p style="text-align:center; color: #aaa; padding: 1rem;">🎉 Perfect score! No wrong answers to review.</p>';
+            return;
+        }
+
+        wrongAnswers.forEach((answer, i) => {
             const q = this.questions[answer.questionIndex];
             const item = document.createElement('div');
 
