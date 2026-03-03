@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Login to CodeQuiz — your AI-powered programming quiz app. Test your coding skills with timed quizzes and an AI tutor.">
+    <title>CodeQuiz - Login</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="auth-card">
+        <h1 class="auth-logo">
+            <i class="fas fa-code"></i> CodeQuiz
+        </h1>
+        <h2 class="auth-title">Welcome Back</h2>
+        <p class="auth-subtitle">Login to continue your journey</p>
+
+        <div id="error-msg" class="auth-error" style="display:none;"></div>
+
+        <form id="login-form">
+            <div class="auth-input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
+            <div class="auth-input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="auth-btn" id="login-btn">
+                <span>Login</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Don't have an account? <a href="signup.html">Sign Up</a>
+        </p>
+    </div>
+
+    <script type="module">
+        import { auth } from "./js/firebase.js";
+        import {
+            signInWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // If already logged in, go to quiz
+        onAuthStateChanged(auth, (user) => {
+            if (user) window.location.href = "index.html";
+        });
+
+        const form = document.getElementById("login-form");
+        const errorMsg = document.getElementById("error-msg");
+        const loginBtn = document.getElementById("login-btn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            errorMsg.style.display = "none";
+            loginBtn.disabled = true;
+            loginBtn.innerHTML = '<span>Logging in...</span> <i class="fas fa-spinner fa-spin"></i>';
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                window.location.href = "index.html";
+            } catch (error) {
+                errorMsg.textContent = getErrorMessage(error.code);
+                errorMsg.style.display = "block";
+                loginBtn.disabled = false;
+                loginBtn.innerHTML = '<span>Login</span> <i class="fas fa-arrow-right"></i>';
+            }
+        });
+
+        function getErrorMessage(code) {
+            switch (code) {
+                case "auth/invalid-email": return "Invalid email address.";
+                case "auth/user-not-found": return "No account found with this email.";
+                case "auth/wrong-password": return "Incorrect password.";
+                case "auth/invalid-credential": return "Invalid email or password.";
+                case "auth/too-many-requests": return "Too many attempts. Try again later.";
+                default: return "Login failed. Please try again.";
+            }
+        }
+    </script>
+</body>
+
+</html>

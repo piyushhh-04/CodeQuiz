@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Create your CodeQuiz account — join the AI-powered programming quiz platform. Learn from an AI tutor and test your coding knowledge.">
+    <title>CodeQuiz - Sign Up</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <div class="auth-card">
+        <h1 class="auth-logo">
+            <i class="fas fa-code"></i> CodeQuiz
+        </h1>
+        <h2 class="auth-title">Create Account</h2>
+        <p class="auth-subtitle">Sign up to start your coding journey</p>
+
+        <div id="error-msg" class="auth-error" style="display:none;"></div>
+
+        <form id="signup-form">
+            <div class="auth-input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" id="email" placeholder="Email Address" required>
+            </div>
+            <div class="auth-input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" id="password" placeholder="Password (min 6 chars)" required minlength="6">
+            </div>
+            <div class="auth-input-group">
+                <i class="fas fa-shield-alt"></i>
+                <input type="password" id="confirm-password" placeholder="Confirm Password" required minlength="6">
+            </div>
+            <button type="submit" class="auth-btn" id="signup-btn">
+                <span>Sign Up</span>
+                <i class="fas fa-user-plus"></i>
+            </button>
+        </form>
+
+        <p class="auth-switch">
+            Already have an account? <a href="login.html">Login</a>
+        </p>
+    </div>
+
+    <script type="module">
+        import { auth } from "./js/firebase.js";
+        import {
+            createUserWithEmailAndPassword,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        // If already logged in, go to quiz
+        onAuthStateChanged(auth, (user) => {
+            if (user) window.location.href = "index.html";
+        });
+
+        const form = document.getElementById("signup-form");
+        const errorMsg = document.getElementById("error-msg");
+        const signupBtn = document.getElementById("signup-btn");
+
+        form.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            errorMsg.style.display = "none";
+
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+            const confirmPassword = document.getElementById("confirm-password").value;
+
+            if (password !== confirmPassword) {
+                errorMsg.textContent = "Passwords do not match.";
+                errorMsg.style.display = "block";
+                return;
+            }
+
+            signupBtn.disabled = true;
+            signupBtn.innerHTML = '<span>Creating account...</span> <i class="fas fa-spinner fa-spin"></i>';
+
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                window.location.href = "index.html";
+            } catch (error) {
+                errorMsg.textContent = getErrorMessage(error.code);
+                errorMsg.style.display = "block";
+                signupBtn.disabled = false;
+                signupBtn.innerHTML = '<span>Sign Up</span> <i class="fas fa-user-plus"></i>';
+            }
+        });
+
+        function getErrorMessage(code) {
+            switch (code) {
+                case "auth/email-already-in-use": return "Email already registered. Try logging in.";
+                case "auth/invalid-email": return "Invalid email address.";
+                case "auth/weak-password": return "Password must be at least 6 characters.";
+                default: return "Sign up failed. Please try again.";
+            }
+        }
+    </script>
+</body>
+
+</html>
