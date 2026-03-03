@@ -8,8 +8,8 @@ const quizData = {
         },
         {
             question: "Which of the following is a valid variable name in Python?",
-            options: ["2var", "_var", "var-name", "var name"],
-            correct: 1
+            options: ["2var", "var-name", "_var", "var name"],
+            correct: 2
         },
         {
             question: "What does the len() function do in Python?",
@@ -23,43 +23,43 @@ const quizData = {
         },
         {
             question: "What is the output of 'Hello' + 'World'?",
-            options: ["Hello World", "HelloWorld", "Hello+World", "Error"],
-            correct: 1
+            options: ["HelloWorld", "Hello World", "Hello+World", "Error"],
+            correct: 0
         },
         {
             question: "Which data type is mutable in Python?",
-            options: ["Tuple", "String", "List", "Integer"],
-            correct: 2
+            options: ["Tuple", "List", "String", "Integer"],
+            correct: 1
         },
         {
             question: "What does the range(3) function return?",
-            options: ["[0, 1, 2]", "[1, 2, 3]", "[0, 1, 2, 3]", "Error"],
-            correct: 0
+            options: ["[1, 2, 3]", "[0, 1, 2]", "[0, 1, 2, 3]", "Error"],
+            correct: 1
         },
         {
             question: "How do you take user input in Python?",
-            options: ["input()", "scan()", "get()", "read()"],
-            correct: 0
+            options: ["scan()", "input()", "get()", "read()"],
+            correct: 1
         },
         {
             question: "Which keyword is used to define a function in Python?",
-            options: ["func", "def", "function", "define"],
-            correct: 1
+            options: ["func", "function", "def", "define"],
+            correct: 2
         },
         {
             question: "What is the output of bool(0)?",
-            options: ["True", "False", "None", "Error"],
-            correct: 1
+            options: ["True", "Error", "None", "False"],
+            correct: 3
         },
         {
             question: "Which of the following is a Python framework?",
-            options: ["Django", "Spring", "Laravel", "Rails"],
-            correct: 0
+            options: ["Spring", "Django", "Laravel", "Rails"],
+            correct: 1
         },
         {
             question: "What is PEP 8?",
-            options: ["Python style guide", "Python editor", "Python package", "Python error"],
-            correct: 0
+            options: ["Python editor", "Python style guide", "Python package", "Python error"],
+            correct: 1
         },
         {
             question: "How do you create a list in Python?",
@@ -73,43 +73,43 @@ const quizData = {
         },
         {
             question: "Which is not a Python data type?",
-            options: ["int", "float", "char", "str"],
-            correct: 2
+            options: ["char", "float", "int", "str"],
+            correct: 0
         },
         {
             question: "What is the output of 3 // 2?",
-            options: ["1.5", "1", "1.0", "Error"],
-            correct: 1
+            options: ["1.5", "Error", "1.0", "1"],
+            correct: 3
         },
         {
             question: "Which module is used for random numbers?",
-            options: ["random", "math", "os", "sys"],
-            correct: 0
+            options: ["os", "math", "random", "sys"],
+            correct: 2
         },
         {
             question: "What is a dictionary in Python?",
-            options: ["Key-value pairs", "Ordered sequence", "Set of values", "None"],
-            correct: 0
+            options: ["Ordered sequence", "Key-value pairs", "Set of values", "None"],
+            correct: 1
         },
         {
             question: "How do you handle exceptions in Python?",
-            options: ["try-except", "catch", "throw", "handle"],
-            correct: 0
+            options: ["handle", "catch", "throw", "try-except"],
+            correct: 3
         },
         {
             question: "What is lambda in Python?",
-            options: ["Anonymous function", "Loop", "Variable", "Module"],
-            correct: 0
+            options: ["Variable", "Loop", "Anonymous function", "Module"],
+            correct: 2
         },
         {
             question: "Which is used for string formatting?",
-            options: ["f-strings", "s-strings", "t-strings", "d-strings"],
-            correct: 0
+            options: ["d-strings", "s-strings", "t-strings", "f-strings"],
+            correct: 3
         },
         {
             question: "What does the split() method do?",
-            options: ["Splits string into list", "Joins strings", "Replaces text", "Finds text"],
-            correct: 0
+            options: ["Finds text", "Joins strings", "Replaces text", "Splits string into list"],
+            correct: 3
         },
         {
             question: "What is pip in Python?",
@@ -123,23 +123,23 @@ const quizData = {
         },
         {
             question: "What is __init__ in Python?",
-            options: ["Constructor", "Destructor", "Method", "Variable"],
-            correct: 0
+            options: ["Variable", "Destructor", "Method", "Constructor"],
+            correct: 3
         },
         {
             question: "How do you import a module?",
-            options: ["import module", "include module", "using module", "require module"],
-            correct: 0
+            options: ["require module", "include module", "using module", "import module"],
+            correct: 3
         },
         {
             question: "What is a generator in Python?",
-            options: ["Yields values", "Returns list", "Creates array", "None"],
-            correct: 0
+            options: ["Returns list", "Yields values", "Creates array", "None"],
+            correct: 1
         },
         {
             question: "Which is true about sets?",
-            options: ["No duplicates", "Ordered", "Indexed", "Mutable"],
-            correct: 0
+            options: ["Indexed", "Ordered", "No duplicates", "Mutable"],
+            correct: 2
         },
         {
             question: "What does the map() function do?",
@@ -148,25 +148,25 @@ const quizData = {
         },
         {
             question: "What is the output of 'Hello'[1]?",
-            options: ["H", "e", "l", "o"],
-            correct: 1
+            options: ["H", "l", "e", "o"],
+            correct: 2
         }
     ],
     java: [
         {
             question: "Which of these is not a Java feature?",
-            options: ["Object-oriented", "Platform independent", "Pointers", "Robust"],
-            correct: 2
-        },
-        {
-            question: "What is the size of int in Java?",
-            options: ["16 bits", "32 bits", "64 bits", "8 bits"],
+            options: ["Object-oriented", "Pointers", "Platform independent", "Robust"],
             correct: 1
         },
         {
+            question: "What is the size of int in Java?",
+            options: ["16 bits", "64 bits", "32 bits", "8 bits"],
+            correct: 2
+        },
+        {
             question: "Which is the root class of Java class hierarchy?",
-            options: ["Object", "Class", "System", "Main"],
-            correct: 0
+            options: ["System", "Class", "Object", "Main"],
+            correct: 2
         },
         {
             question: "What is JVM?",
@@ -175,8 +175,8 @@ const quizData = {
         },
         {
             question: "Which keyword is used to inherit a class?",
-            options: ["extends", "implements", "inherits", "using"],
-            correct: 0
+            options: ["using", "implements", "inherits", "extends"],
+            correct: 3
         },
         {
             question: "What is the default value of boolean?",
@@ -185,8 +185,8 @@ const quizData = {
         },
         {
             question: "Which is a reserved keyword in Java?",
-            options: ["object", "strictfp", "main", "system"],
-            correct: 1
+            options: ["object", "main", "strictfp", "system"],
+            correct: 2
         },
         {
             question: "What is the return type of main method?",
@@ -195,8 +195,8 @@ const quizData = {
         },
         {
             question: "Which package is imported by default?",
-            options: ["java.util", "java.lang", "java.io", "java.net"],
-            correct: 1
+            options: ["java.lang", "java.util", "java.io", "java.net"],
+            correct: 0
         },
         {
             question: "What is garbage collection in Java?",
@@ -205,23 +205,23 @@ const quizData = {
         },
         {
             question: "What is the difference between JDK and JRE?",
-            options: ["JDK includes JRE", "JRE includes JDK", "Both are same", "None"],
-            correct: 0
+            options: ["JRE includes JDK", "JDK includes JRE", "Both are same", "None"],
+            correct: 1
         },
         {
             question: "Which is not a primitive data type?",
-            options: ["int", "float", "String", "char"],
-            correct: 2
+            options: ["int", "String", "float", "char"],
+            correct: 1
         },
         {
             question: "What is the purpose of the 'static' keyword?",
-            options: ["Class level variable", "Instance variable", "Local variable", "None"],
-            correct: 0
+            options: ["Local variable", "Instance variable", "Class level variable", "None"],
+            correct: 2
         },
         {
             question: "What is inheritance in Java?",
-            options: ["Deriving classes", "Creating objects", "Overloading", "None"],
-            correct: 0
+            options: ["None", "Creating objects", "Overloading", "Deriving classes"],
+            correct: 3
         },
         {
             question: "Which is an access modifier?",
@@ -230,8 +230,8 @@ const quizData = {
         },
         {
             question: "What is an interface in Java?",
-            options: ["Abstract class", "Concrete class", "Normal class", "None"],
-            correct: 0
+            options: ["None", "Concrete class", "Normal class", "Abstract class"],
+            correct: 3
         },
         {
             question: "What is the use of 'this' keyword?",
@@ -240,18 +240,18 @@ const quizData = {
         },
         {
             question: "What is method overloading?",
-            options: ["Same name, different params", "Same name, same params", "Different name", "None"],
-            correct: 0
+            options: ["Same name, same params", "Same name, different params", "Different name", "None"],
+            correct: 1
         },
         {
             question: "What is method overriding?",
-            options: ["Redefining parent method", "New method", "Static method", "None"],
-            correct: 0
+            options: ["Static method", "New method", "Redefining parent method", "None"],
+            correct: 2
         },
         {
             question: "What is the super keyword used for?",
-            options: ["Access parent", "Access child", "Access current", "None"],
-            correct: 0
+            options: ["None", "Access child", "Access current", "Access parent"],
+            correct: 3
         },
         {
             question: "What is an abstract class?",
@@ -260,18 +260,18 @@ const quizData = {
         },
         {
             question: "What is polymorphism in Java?",
-            options: ["Many forms", "Single form", "No form", "None"],
-            correct: 0
+            options: ["Single form", "Many forms", "No form", "None"],
+            correct: 1
         },
         {
             question: "What is encapsulation?",
-            options: ["Data hiding", "Data showing", "Data sharing", "None"],
-            correct: 0
+            options: ["None", "Data showing", "Data sharing", "Data hiding"],
+            correct: 3
         },
         {
             question: "What is the try-catch block used for?",
-            options: ["Exception handling", "Looping", "Conditional", "None"],
-            correct: 0
+            options: ["Conditional", "Looping", "Exception handling", "None"],
+            correct: 2
         },
         {
             question: "What is finally block?",
@@ -280,18 +280,18 @@ const quizData = {
         },
         {
             question: "What is a thread in Java?",
-            options: ["Lightweight process", "Heavy process", "Program", "None"],
-            correct: 0
+            options: ["Heavy process", "Lightweight process", "Program", "None"],
+            correct: 1
         },
         {
             question: "What is synchronization?",
-            options: ["Thread control", "Data control", "Memory control", "None"],
-            correct: 0
+            options: ["None", "Data control", "Memory control", "Thread control"],
+            correct: 3
         },
         {
             question: "What is a collection in Java?",
-            options: ["Group of objects", "Single object", "Primitive type", "None"],
-            correct: 0
+            options: ["None", "Single object", "Primitive type", "Group of objects"],
+            correct: 3
         },
         {
             question: "What is the difference between ArrayList and LinkedList?",
@@ -300,20 +300,20 @@ const quizData = {
         },
         {
             question: "What is the purpose of the 'final' keyword?",
-            options: ["Constant value", "Variable value", "Changing value", "None"],
-            correct: 0
+            options: ["Changing value", "Variable value", "Constant value", "None"],
+            correct: 2
         }
     ],
     html: [
         {
             question: "What does HTML stand for?",
-            options: ["Hyper Text Markup Language", "High Text Machine Language", "Hyper Text Markup Leveler", "None"],
-            correct: 0
+            options: ["None", "High Text Machine Language", "Hyper Text Markup Leveler", "Hyper Text Markup Language"],
+            correct: 3
         },
         {
             question: "Which tag is used for largest heading?",
-            options: ["<h1>", "<h6>", "<heading>", "<head>"],
-            correct: 0
+            options: ["<heading>", "<h6>", "<h1>", "<head>"],
+            correct: 2
         },
         {
             question: "What is the correct HTML for line break?",
@@ -322,8 +322,8 @@ const quizData = {
         },
         {
             question: "Which tag is used for inserting image?",
-            options: ["<img>", "<image>", "<pic>", "<src>"],
-            correct: 0
+            options: ["<image>", "<img>", "<pic>", "<src>"],
+            correct: 1
         },
         {
             question: "What is the correct HTML for hyperlink?",
@@ -332,53 +332,53 @@ const quizData = {
         },
         {
             question: "Which tag is used for unordered list?",
-            options: ["<ul>", "<ol>", "<li>", "<list>"],
-            correct: 0
+            options: ["<list>", "<ol>", "<li>", "<ul>"],
+            correct: 3
         },
         {
             question: "What does CSS stand for?",
-            options: ["Cascading Style Sheets", "Computer Style Sheets", "Creative Style System", "None"],
-            correct: 0
+            options: ["Creative Style System", "Computer Style Sheets", "Cascading Style Sheets", "None"],
+            correct: 2
         },
         {
             question: "Which attribute is used to define inline styles?",
-            options: ["style", "class", "font", "styles"],
-            correct: 0
+            options: ["class", "style", "font", "styles"],
+            correct: 1
         },
         {
             question: "Which HTML tag is used for table?",
-            options: ["<table>", "<tab>", "<tbl>", "<grid>"],
-            correct: 0
+            options: ["<tab>", "<table>", "<tbl>", "<grid>"],
+            correct: 1
         },
         {
             question: "What is the correct HTML for checkbox?",
-            options: ["<input type='checkbox'>", "<checkbox>", "<check>", "<input type='check'>"],
-            correct: 0
+            options: ["<input type='check'>", "<checkbox>", "<check>", "<input type='checkbox'>"],
+            correct: 3
         },
         {
             question: "What is the correct HTML for creating a text input field?",
-            options: ["<input type='text'>", "<text>", "<input type='textfield'>", "<textfield>"],
-            correct: 0
+            options: ["<input type='textfield'>", "<text>", "<input type='text'>", "<textfield>"],
+            correct: 2
         },
         {
             question: "Which tag is used to define a paragraph?",
-            options: ["<p>", "<para>", "<paragraph>", "<pg>"],
-            correct: 0
+            options: ["<para>", "<p>", "<paragraph>", "<pg>"],
+            correct: 1
         },
         {
             question: "What is the correct HTML for adding a background color?",
-            options: ["<body bgcolor='yellow'>", "<background>", "<body color='yellow'>", "None"],
-            correct: 0
+            options: ["<body color='yellow'>", "<background>", "<body bgcolor='yellow'>", "None"],
+            correct: 2
         },
         {
             question: "Which tag is used for inserting a line horizontally?",
-            options: ["<hr>", "<line>", "<br>", "<hline>"],
-            correct: 0
+            options: ["<hline>", "<line>", "<br>", "<hr>"],
+            correct: 3
         },
         {
             question: "What does the <div> tag do?",
-            options: ["Defines a division", "Defines a link", "Defines an image", "Defines a list"],
-            correct: 0
+            options: ["Defines a list", "Defines a link", "Defines an image", "Defines a division"],
+            correct: 3
         },
         {
             question: "Which tag is used for bold text?",
@@ -387,8 +387,8 @@ const quizData = {
         },
         {
             question: "What is the correct HTML for creating a form?",
-            options: ["<form>", "<input>", "<field>", "<frm>"],
-            correct: 0
+            options: ["<input>", "<form>", "<field>", "<frm>"],
+            correct: 1
         },
         {
             question: "Which input type defines a submit button?",
@@ -407,13 +407,13 @@ const quizData = {
         },
         {
             question: "What is the correct HTML for creating a drop-down list?",
-            options: ["<select>", "<list>", "<dropdown>", "<dl>"],
-            correct: 0
+            options: ["<dl>", "<list>", "<dropdown>", "<select>"],
+            correct: 3
         },
         {
             question: "Which attribute specifies a unique identifier?",
-            options: ["id", "class", "name", "type"],
-            correct: 0
+            options: ["class", "id", "name", "type"],
+            correct: 1
         },
         {
             question: "What is the correct HTML for inserting a comment?",
@@ -422,18 +422,18 @@ const quizData = {
         },
         {
             question: "Which tag is used for the largest heading?",
-            options: ["<h1>", "<h2>", "<h3>", "<h4>"],
-            correct: 0
+            options: ["<h3>", "<h2>", "<h1>", "<h4>"],
+            correct: 2
         },
         {
             question: "What does the <span> tag do?",
-            options: ["Inline container", "Block container", "Line break", "None"],
-            correct: 0
+            options: ["Line break", "Block container", "Inline container", "None"],
+            correct: 2
         },
         {
             question: "Which is the correct way to link a CSS file?",
-            options: ["<link rel='stylesheet' href='style.css'>", "<style src='style.css'>", "<css>", "None"],
-            correct: 0
+            options: ["<style src='style.css'>", "<link rel='stylesheet' href='style.css'>", "<css>", "None"],
+            correct: 1
         },
         {
             question: "What is the correct HTML for creating a radio button?",
@@ -442,30 +442,30 @@ const quizData = {
         },
         {
             question: "Which tag defines the title of the document?",
-            options: ["<title>", "<head>", "<meta>", "<caption>"],
-            correct: 0
+            options: ["<meta>", "<head>", "<title>", "<caption>"],
+            correct: 2
         },
         {
             question: "What is the correct HTML for inserting a JavaScript file?",
-            options: ["<script src='script.js'>", "<js src='script.js'>", "<javascript>", "None"],
-            correct: 0
+            options: ["<js src='script.js'>", "<script src='script.js'>", "<javascript>", "None"],
+            correct: 1
         },
         {
             question: "Which tag is used for subscript text?",
-            options: ["<sub>", "<sup>", "<small>", "<under>"],
-            correct: 0
+            options: ["<under>", "<sup>", "<small>", "<sub>"],
+            correct: 3
         }
     ],
     sql: [
         {
             question: "What does SQL stand for?",
-            options: ["Structured Query Language", "Standard Query Language", "Simple Query Language", "None"],
-            correct: 0
+            options: ["Standard Query Language", "Structured Query Language", "Simple Query Language", "None"],
+            correct: 1
         },
         {
             question: "Which SQL statement is used to extract data from database?",
-            options: ["SELECT", "GET", "EXTRACT", "OPEN"],
-            correct: 0
+            options: ["EXTRACT", "GET", "SELECT", "OPEN"],
+            correct: 2
         },
         {
             question: "Which SQL statement is used to update data?",
@@ -474,13 +474,13 @@ const quizData = {
         },
         {
             question: "What is the full form of DDL?",
-            options: ["Data Definition Language", "Data Description Language", "Data Design Language", "None"],
-            correct: 0
+            options: ["Data Description Language", "Data Definition Language", "Data Design Language", "None"],
+            correct: 1
         },
         {
             question: "Which command is used to delete a table?",
-            options: ["DROP", "DELETE", "REMOVE", "CLEAR"],
-            correct: 0
+            options: ["CLEAR", "DELETE", "REMOVE", "DROP"],
+            correct: 3
         },
         {
             question: "What is a primary key?",
@@ -489,13 +489,13 @@ const quizData = {
         },
         {
             question: "Which join returns all rows from left table?",
-            options: ["LEFT JOIN", "RIGHT JOIN", "INNER JOIN", "FULL JOIN"],
-            correct: 0
+            options: ["RIGHT JOIN", "LEFT JOIN", "INNER JOIN", "FULL JOIN"],
+            correct: 1
         },
         {
             question: "What does COUNT(*) do?",
-            options: ["Counts rows", "Counts columns", "Counts values", "None"],
-            correct: 0
+            options: ["Counts columns", "Counts rows", "Counts values", "None"],
+            correct: 1
         },
         {
             question: "Which clause is used to filter groups?",
@@ -504,18 +504,18 @@ const quizData = {
         },
         {
             question: "What is a foreign key?",
-            options: ["References another table", "Primary key", "Unique key", "Index"],
-            correct: 0
+            options: ["Unique key", "Primary key", "References another table", "Index"],
+            correct: 2
         },
         {
             question: "What is the purpose of the WHERE clause?",
-            options: ["Filter records", "Sort records", "Group records", "Join tables"],
-            correct: 0
+            options: ["Group records", "Sort records", "Filter records", "Join tables"],
+            correct: 2
         },
         {
             question: "Which SQL statement is used to insert data?",
-            options: ["INSERT INTO", "ADD RECORD", "INSERT ROW", "NEW DATA"],
-            correct: 0
+            options: ["NEW DATA", "ADD RECORD", "INSERT ROW", "INSERT INTO"],
+            correct: 3
         },
         {
             question: "What is the purpose of the ORDER BY clause?",
@@ -524,13 +524,13 @@ const quizData = {
         },
         {
             question: "Which SQL statement is used to delete data?",
-            options: ["DELETE", "REMOVE", "DROP", "CLEAR"],
-            correct: 0
+            options: ["REMOVE", "DELETE", "DROP", "CLEAR"],
+            correct: 1
         },
         {
             question: "What is the purpose of the GROUP BY clause?",
-            options: ["Group rows", "Sort rows", "Filter rows", "Join rows"],
-            correct: 0
+            options: ["Sort rows", "Group rows", "Filter rows", "Join rows"],
+            correct: 1
         },
         {
             question: "What is a view in SQL?",
@@ -539,8 +539,8 @@ const quizData = {
         },
         {
             question: "What is the purpose of the DISTINCT keyword?",
-            options: ["Remove duplicates", "Add duplicates", "Count values", "None"],
-            correct: 0
+            options: ["None", "Add duplicates", "Count values", "Remove duplicates"],
+            correct: 3
         },
         {
             question: "What is an index in SQL?",
@@ -549,13 +549,13 @@ const quizData = {
         },
         {
             question: "What is the purpose of the UNION operator?",
-            options: ["Combine results", "Subtract results", "Multiply results", "Divide results"],
-            correct: 0
+            options: ["Divide results", "Subtract results", "Multiply results", "Combine results"],
+            correct: 3
         },
         {
             question: "What is a transaction in SQL?",
-            options: ["Unit of work", "Table", "View", "Index"],
-            correct: 0
+            options: ["Table", "Unit of work", "View", "Index"],
+            correct: 1
         },
         {
             question: "What is the purpose of the COMMIT statement?",
@@ -564,38 +564,38 @@ const quizData = {
         },
         {
             question: "What is the purpose of the ROLLBACK statement?",
-            options: ["Undo changes", "Save changes", "Delete changes", "None"],
-            correct: 0
+            options: ["Delete changes", "Save changes", "Undo changes", "None"],
+            correct: 2
         },
         {
             question: "What is a stored procedure?",
-            options: ["Saved SQL code", "Table", "View", "Index"],
-            correct: 0
+            options: ["Index", "Table", "View", "Saved SQL code"],
+            correct: 3
         },
         {
             question: "What is a trigger in SQL?",
-            options: ["Automatic action", "Manual action", "Table", "View"],
-            correct: 0
+            options: ["Table", "Manual action", "Automatic action", "View"],
+            correct: 2
         },
         {
             question: "What is the purpose of the ALTER statement?",
-            options: ["Modify structure", "Modify data", "Delete data", "Add data"],
-            correct: 0
+            options: ["Delete data", "Modify data", "Modify structure", "Add data"],
+            correct: 2
         },
         {
             question: "What is a data type in SQL?",
-            options: ["Type of data", "Table", "View", "Index"],
-            correct: 0
+            options: ["Index", "Table", "View", "Type of data"],
+            correct: 3
         },
         {
             question: "What is NULL in SQL?",
-            options: ["Missing value", "Zero", "Empty string", "Space"],
-            correct: 0
+            options: ["Empty string", "Zero", "Missing value", "Space"],
+            correct: 2
         },
         {
             question: "What is the purpose of the IS NULL operator?",
-            options: ["Check for null", "Check for zero", "Check for empty", "None"],
-            correct: 0
+            options: ["None", "Check for zero", "Check for empty", "Check for null"],
+            correct: 3
         },
         {
             question: "What is the purpose of the BETWEEN operator?",
@@ -604,35 +604,35 @@ const quizData = {
         },
         {
             question: "What is the purpose of the LIKE operator?",
-            options: ["Pattern matching", "Equal check", "Greater check", "Less check"],
-            correct: 0
+            options: ["Equal check", "Pattern matching", "Greater check", "Less check"],
+            correct: 1
         }
     ],
     c: [
         {
             question: "Who developed C language?",
-            options: ["Dennis Ritchie", "Bjarne Stroustrup", "James Gosling", "Guido van Rossum"],
-            correct: 0
-        },
-        {
-            question: "Which is valid C variable name?",
-            options: ["int", "_var", "2var", "var name"],
+            options: ["Bjarne Stroustrup", "Dennis Ritchie", "James Gosling", "Guido van Rossum"],
             correct: 1
         },
         {
-            question: "What is the size of int in C?",
-            options: ["2 bytes", "4 bytes", "8 bytes", "Depends on compiler"],
+            question: "Which is valid C variable name?",
+            options: ["int", "var name", "2var", "_var"],
             correct: 3
         },
         {
+            question: "What is the size of int in C?",
+            options: ["2 bytes", "4 bytes", "Depends on compiler", "8 bytes"],
+            correct: 2
+        },
+        {
             question: "Which header file is needed for printf?",
-            options: ["stdio.h", "conio.h", "stdlib.h", "math.h"],
-            correct: 0
+            options: ["stdlib.h", "conio.h", "stdio.h", "math.h"],
+            correct: 2
         },
         {
             question: "What does '&' operator do?",
-            options: ["Address of", "Bitwise AND", "Logical AND", "Reference"],
-            correct: 0
+            options: ["Reference", "Bitwise AND", "Logical AND", "Address of"],
+            correct: 3
         },
         {
             question: "Which is a loop in C?",
@@ -646,33 +646,33 @@ const quizData = {
         },
         {
             question: "Which is not a storage class?",
-            options: ["auto", "register", "static", "external"],
-            correct: 3
+            options: ["auto", "external", "static", "register"],
+            correct: 1
         },
         {
             question: "What does malloc() do?",
-            options: ["Memory allocation", "Memory free", "Memory copy", "Memory set"],
-            correct: 0
+            options: ["Memory free", "Memory allocation", "Memory copy", "Memory set"],
+            correct: 1
         },
         {
             question: "Which is a conditional statement?",
-            options: ["if-else", "for", "while", "do-while"],
-            correct: 0
+            options: ["while", "for", "if-else", "do-while"],
+            correct: 2
         },
         {
             question: "What is the output of 5/2?",
-            options: ["2", "2.5", "2.0", "Error"],
-            correct: 0
+            options: ["Error", "2.5", "2.0", "2"],
+            correct: 3
         },
         {
             question: "What is the use of 'break' statement?",
-            options: ["Exit loop", "Continue loop", "Skip iteration", "None"],
-            correct: 0
+            options: ["Skip iteration", "Continue loop", "Exit loop", "None"],
+            correct: 2
         },
         {
             question: "What is an array in C?",
-            options: ["Collection of elements", "Single element", "Pointer", "None"],
-            correct: 0
+            options: ["Single element", "Collection of elements", "Pointer", "None"],
+            correct: 1
         },
         {
             question: "What is a string in C?",
@@ -686,33 +686,33 @@ const quizData = {
         },
         {
             question: "What is a structure in C?",
-            options: ["User-defined type", "Built-in type", "Pointer", "None"],
-            correct: 0
+            options: ["Built-in type", "User-defined type", "Pointer", "None"],
+            correct: 1
         },
         {
             question: "What is a union in C?",
-            options: ["Shared memory", "Separate memory", "Pointer", "None"],
-            correct: 0
+            options: ["Pointer", "Separate memory", "Shared memory", "None"],
+            correct: 2
         },
         {
             question: "What is a file in C?",
-            options: ["Data storage", "Program", "Function", "None"],
-            correct: 0
+            options: ["Program", "Data storage", "Function", "None"],
+            correct: 1
         },
         {
             question: "What does fopen() do?",
-            options: ["Opens a file", "Closes a file", "Reads file", "Writes file"],
-            correct: 0
+            options: ["Writes file", "Closes a file", "Reads file", "Opens a file"],
+            correct: 3
         },
         {
             question: "What is a function in C?",
-            options: ["Reusable code", "Variable", "Loop", "Condition"],
-            correct: 0
+            options: ["Loop", "Variable", "Reusable code", "Condition"],
+            correct: 2
         },
         {
             question: "What is recursion in C?",
-            options: ["Function calls itself", "Function calls another", "Loop", "None"],
-            correct: 0
+            options: ["None", "Function calls another", "Loop", "Function calls itself"],
+            correct: 3
         },
         {
             question: "What is a preprocessor directive?",
@@ -721,8 +721,8 @@ const quizData = {
         },
         {
             question: "What is a header file?",
-            options: ["Contains declarations", "Contains definitions", "Contains code", "None"],
-            correct: 0
+            options: ["Contains code", "Contains definitions", "Contains declarations", "None"],
+            correct: 2
         },
         {
             question: "What is the main() function?",
@@ -731,8 +731,8 @@ const quizData = {
         },
         {
             question: "What is a variable in C?",
-            options: ["Memory location", "Value", "Constant", "None"],
-            correct: 0
+            options: ["None", "Value", "Constant", "Memory location"],
+            correct: 3
         },
         {
             question: "What is a constant in C?",
@@ -746,60 +746,60 @@ const quizData = {
         },
         {
             question: "What is type casting?",
-            options: ["Convert data type", "Change value", "Create type", "None"],
-            correct: 0
+            options: ["Change value", "Convert data type", "Create type", "None"],
+            correct: 1
         },
         {
             question: "What is a static variable?",
-            options: ["Retains value", "Loses value", "Global", "Local"],
-            correct: 0
+            options: ["Loses value", "Retains value", "Global", "Local"],
+            correct: 1
         },
         {
             question: "What is a register variable?",
-            options: ["Stored in CPU", "Stored in memory", "Stored in disk", "None"],
-            correct: 0
+            options: ["None", "Stored in memory", "Stored in disk", "Stored in CPU"],
+            correct: 3
         }
     ],
     cpp: [
         {
             question: "Who developed C++?",
-            options: ["Bjarne Stroustrup", "Dennis Ritchie", "James Gosling", "Ken Thompson"],
-            correct: 0
-        },
-        {
-            question: "Which is not a feature of C++?",
-            options: ["Classes", "Inheritance", "Pointers", "Garbage collection"],
+            options: ["Ken Thompson", "Dennis Ritchie", "James Gosling", "Bjarne Stroustrup"],
             correct: 3
         },
         {
+            question: "Which is not a feature of C++?",
+            options: ["Classes", "Inheritance", "Garbage collection", "Pointers"],
+            correct: 2
+        },
+        {
             question: "What is cout used for?",
-            options: ["Output", "Input", "Error", "None"],
-            correct: 0
+            options: ["Input", "Output", "Error", "None"],
+            correct: 1
         },
         {
             question: "Which symbol is used for comments?",
-            options: ["//", "#", "/*", "--"],
-            correct: 0
+            options: ["--", "#", "/*", "//"],
+            correct: 3
         },
         {
             question: "What is a constructor?",
-            options: ["Initializes object", "Destroys object", "Copies object", "None"],
-            correct: 0
+            options: ["None", "Destroys object", "Copies object", "Initializes object"],
+            correct: 3
         },
         {
             question: "Which is a access specifier?",
-            options: ["public", "static", "virtual", "const"],
-            correct: 0
+            options: ["static", "public", "virtual", "const"],
+            correct: 1
         },
         {
             question: "What is inheritance?",
-            options: ["Deriving classes", "Creating objects", "Overloading", "None"],
-            correct: 0
+            options: ["Creating objects", "Deriving classes", "Overloading", "None"],
+            correct: 1
         },
         {
             question: "Which is a polymorphism feature?",
-            options: ["Virtual functions", "Classes", "Objects", "Inheritance"],
-            correct: 0
+            options: ["Inheritance", "Classes", "Objects", "Virtual functions"],
+            correct: 3
         },
         {
             question: "What is namespace?",
@@ -818,8 +818,8 @@ const quizData = {
         },
         {
             question: "What is a destructor?",
-            options: ["Destroys object", "Creates object", "Copies object", "None"],
-            correct: 0
+            options: ["Creates object", "Destroys object", "Copies object", "None"],
+            correct: 1
         },
         {
             question: "What is function overloading?",
@@ -828,18 +828,18 @@ const quizData = {
         },
         {
             question: "What is operator overloading?",
-            options: ["Redefining operators", "New operators", "Delete operators", "None"],
-            correct: 0
+            options: ["Delete operators", "New operators", "Redefining operators", "None"],
+            correct: 2
         },
         {
             question: "What is virtual function?",
-            options: ["Dynamic binding", "Static binding", "Compile time", "None"],
-            correct: 0
+            options: ["None", "Static binding", "Compile time", "Dynamic binding"],
+            correct: 3
         },
         {
             question: "What is pure virtual function?",
-            options: ["Abstract function", "Concrete function", "Normal function", "None"],
-            correct: 0
+            options: ["None", "Concrete function", "Normal function", "Abstract function"],
+            correct: 3
         },
         {
             question: "What is a template in C++?",
@@ -848,18 +848,18 @@ const quizData = {
         },
         {
             question: "What is exception handling?",
-            options: ["Error handling", "Normal flow", "Loop control", "None"],
-            correct: 0
+            options: ["Loop control", "Normal flow", "Error handling", "None"],
+            correct: 2
         },
         {
             question: "What is the try-catch block?",
-            options: ["Error handling", "Loop", "Condition", "None"],
-            correct: 0
+            options: ["Loop", "Error handling", "Condition", "None"],
+            correct: 1
         },
         {
             question: "What is STL?",
-            options: ["Standard Template Library", "Simple Template Library", "Standard Type Library", "None"],
-            correct: 0
+            options: ["Standard Type Library", "Simple Template Library", "Standard Template Library", "None"],
+            correct: 2
         },
         {
             question: "What is a vector in C++?",
@@ -868,13 +868,13 @@ const quizData = {
         },
         {
             question: "What is a list in C++?",
-            options: ["Doubly linked list", "Array", "Stack", "Queue"],
-            correct: 0
+            options: ["Array", "Doubly linked list", "Stack", "Queue"],
+            correct: 1
         },
         {
             question: "What is a map in C++?",
-            options: ["Key-value pairs", "Array", "List", "Set"],
-            correct: 0
+            options: ["List", "Array", "Key-value pairs", "Set"],
+            correct: 2
         },
         {
             question: "What is a set in C++?",
@@ -888,30 +888,30 @@ const quizData = {
         },
         {
             question: "What is a friend function?",
-            options: ["Access private members", "Public function", "Protected function", "None"],
-            correct: 0
+            options: ["Protected function", "Public function", "Access private members", "None"],
+            correct: 2
         },
         {
             question: "What is this pointer?",
-            options: ["Points to current object", "Points to parent", "Points to child", "None"],
-            correct: 0
+            options: ["Points to parent", "Points to current object", "Points to child", "None"],
+            correct: 1
         },
         {
             question: "What is new operator?",
-            options: ["Dynamic memory", "Static memory", "Stack memory", "None"],
-            correct: 0
+            options: ["Stack memory", "Static memory", "Dynamic memory", "None"],
+            correct: 2
         },
         {
             question: "What is delete operator?",
-            options: ["Free memory", "Allocate memory", "Copy memory", "None"],
-            correct: 0
+            options: ["Allocate memory", "Free memory", "Copy memory", "None"],
+            correct: 1
         },
         {
             question: "What is reference variable?",
-            options: ["Alias to variable", "Pointer", "Value", "None"],
-            correct: 0
+            options: ["None", "Pointer", "Value", "Alias to variable"],
+            correct: 3
         }
-    ]
+    ],
 };
 
 // Subject icons mapping
