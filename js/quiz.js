@@ -653,7 +653,7 @@ class QuizApp {
         // Stats
         document.getElementById('final-accuracy').textContent = `${accuracy}%`;
         document.getElementById('final-time').textContent = formatTime(this.totalTime);
-        document.getElementById('final-avg-time').textContent = `${avgTime}s`;
+        document.getElementById('final-correct').textContent = `${this.correctCount}/${total}`;
         document.getElementById('final-score').textContent = this.score;
 
         // Render answer review
