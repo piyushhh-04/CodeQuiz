@@ -19,14 +19,14 @@
 }
 
 .dialog-container {
-    background: white;
+    background: #1a1f2e;
     border-radius: 24px;
     width: 90%;
     max-width: 420px;
-    box-shadow: 0 25px 70px rgba(14, 165, 233, 0.15);
+    box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
     animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    border: 1.5px solid rgba(14, 165, 233, 0.2);
+    border: 1.5px solid rgba(59, 130, 246, 0.15);
 }
 
 @keyframes slideIn {
@@ -50,7 +50,7 @@
 }
 
 .dialog-header {
-    background: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     color: white;
     padding: 24px 24px;
     display: flex;
@@ -60,7 +60,7 @@
 
 .dialog-header i {
     font-size: 2.2rem;
-    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
 }
 
 .dialog-header h3 {
@@ -72,7 +72,7 @@
 
 .dialog-body {
     padding: 28px 24px;
-    color: #0a1929;
+    color: #f8f9fa;
     font-size: 1.1rem;
     line-height: 1.6;
     font-weight: 500;
@@ -83,8 +83,8 @@
     display: flex;
     gap: 12px;
     justify-content: flex-end;
-    border-top: 1.5px solid rgba(14, 165, 233, 0.1);
-    background: rgba(240, 249, 255, 0.4);
+    border-top: 1.5px solid rgba(59, 130, 246, 0.1);
+    background: rgba(22, 25, 43, 0.5);
 }
 
 .dialog-btn {
@@ -102,27 +102,27 @@
 }
 
 .dialog-btn-primary {
-    background: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%);
+    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
     color: white;
-    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.25);
+    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
 }
 
 .dialog-btn-secondary {
-    background: rgba(255, 255, 255, 0.95);
-    color: #0a1929;
-    border: 1.5px solid rgba(14, 165, 233, 0.25);
+    background: rgba(22, 25, 43, 0.6);
+    color: #f8f9fa;
+    border: 1.5px solid rgba(59, 130, 246, 0.25);
 }
 
 .dialog-btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 45px rgba(14, 165, 233, 0.35);
+    box-shadow: 0 15px 45px rgba(59, 130, 246, 0.35);
 }
 
 .dialog-btn-secondary:hover {
-    background: #f0f9ff;
-    border-color: rgba(14, 165, 233, 0.4);
+    background: rgba(59, 130, 246, 0.1);
+    border-color: rgba(59, 130, 246, 0.4);
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.1);
+    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
 }
 
 .dialog-btn:active {
@@ -139,7 +139,7 @@
 }
 
 .dialog-overlay.error .dialog-header {
-    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
 }
 
 .dialog-overlay.info .dialog-header {
