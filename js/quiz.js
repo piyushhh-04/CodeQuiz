@@ -379,7 +379,15 @@ class QuizApp {
         } catch (error) {
             console.error('Chat error:', error);
             this.removeThinkingBubble();
-            this.addChatBubble('ai', `<p>Could not reach the AI server. Make sure it's running!</p><p><button class="quick-prompt-btn" onclick="quizApp.retrySendChat('${message.replace(/'/g, "\\'")}')"><i class="fas fa-redo"></i> Retry</button></p>`, true);
+            const errorBubble = this.addChatBubble(
+                'ai',
+                `<p>Could not reach the AI server. Make sure it's running!</p><p><button class="quick-prompt-btn retry-btn" type="button"><i class="fas fa-redo"></i> Retry</button></p>`,
+                true
+            );
+            const retryBtn = errorBubble.querySelector('.retry-btn');
+            if (retryBtn) {
+                retryBtn.addEventListener('click', () => this.retrySendChat(message));
+            }
         }
 
         sendBtn.disabled = false;

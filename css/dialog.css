@@ -26,6 +26,7 @@
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
     animation: slideIn 0.3s ease;
     overflow: hidden;
+    border: 1px solid var(--border);
 }
 
 @keyframes slideIn {
@@ -40,7 +41,7 @@
 }
 
 .dialog-header {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
     color: white;
     padding: 20px;
     display: flex;
@@ -59,7 +60,7 @@
 
 .dialog-body {
     padding: 25px 20px;
-    color: var(--dark-blue);
+    color: var(--text);
     font-size: 1.1rem;
     line-height: 1.5;
 }
@@ -86,23 +87,23 @@
 }
 
 .dialog-btn-primary {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
     color: white;
 }
 
 .dialog-btn-secondary {
-    background: #f8f9fa;
-    color: var(--dark-blue);
-    border: 1px solid #dee2e6;
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--text);
+    border: 1px solid var(--border);
 }
 
 .dialog-btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(247, 37, 133, 0.3);
+    box-shadow: 0 16px 40px rgba(2, 6, 23, 0.16);
 }
 
 .dialog-btn-secondary:hover {
-    background: #e9ecef;
+    background: #f8fafc;
 }
 
 /* Dialog Types */
@@ -119,7 +120,7 @@
 }
 
 .dialog-overlay.info .dialog-header {
-    background: linear-gradient(135deg, var(--primary-blue), var(--primary-pink));
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
 }
 
 /* Mobile Responsive */
