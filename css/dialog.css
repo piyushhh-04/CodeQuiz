@@ -6,8 +6,8 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    backdrop-filter: blur(5px);
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(8px);
     z-index: 1000;
     align-items: center;
     justify-content: center;
@@ -20,103 +20,126 @@
 
 .dialog-container {
     background: white;
-    border-radius: 20px;
+    border-radius: 24px;
     width: 90%;
-    max-width: 400px;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-    animation: slideIn 0.3s ease;
+    max-width: 420px;
+    box-shadow: 0 25px 70px rgba(14, 165, 233, 0.15);
+    animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    border: 1px solid var(--border);
+    border: 1.5px solid rgba(14, 165, 233, 0.2);
 }
 
 @keyframes slideIn {
     from {
         opacity: 0;
-        transform: translateY(-30px);
+        transform: translateY(-40px) scale(0.95);
     }
     to {
         opacity: 1;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
     }
 }
 
 .dialog-header {
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    background: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%);
     color: white;
-    padding: 20px;
+    padding: 24px 24px;
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
 .dialog-header i {
-    font-size: 2rem;
+    font-size: 2.2rem;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .dialog-header h3 {
     margin: 0;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.3px;
 }
 
 .dialog-body {
-    padding: 25px 20px;
-    color: var(--text);
+    padding: 28px 24px;
+    color: #0a1929;
     font-size: 1.1rem;
-    line-height: 1.5;
+    line-height: 1.6;
+    font-weight: 500;
 }
 
 .dialog-footer {
-    padding: 15px 20px;
+    padding: 18px 24px;
     display: flex;
-    gap: 10px;
+    gap: 12px;
     justify-content: flex-end;
-    border-top: 1px solid #eee;
+    border-top: 1.5px solid rgba(14, 165, 233, 0.1);
+    background: rgba(240, 249, 255, 0.4);
 }
 
 .dialog-btn {
-    padding: 10px 25px;
+    padding: 11px 28px;
     border: none;
     border-radius: 50px;
-    font-weight: bold;
+    font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: inline-flex;
     align-items: center;
     gap: 8px;
     font-size: 0.95rem;
+    letter-spacing: 0.2px;
 }
 
 .dialog-btn-primary {
-    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    background: linear-gradient(135deg, #0ea5e9 0%, #7c3aed 100%);
     color: white;
+    box-shadow: 0 10px 30px rgba(14, 165, 233, 0.25);
 }
 
 .dialog-btn-secondary {
-    background: rgba(255, 255, 255, 0.9);
-    color: var(--text);
-    border: 1px solid var(--border);
+    background: rgba(255, 255, 255, 0.95);
+    color: #0a1929;
+    border: 1.5px solid rgba(14, 165, 233, 0.25);
 }
 
 .dialog-btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 16px 40px rgba(2, 6, 23, 0.16);
+    transform: translateY(-3px);
+    box-shadow: 0 15px 45px rgba(14, 165, 233, 0.35);
 }
 
 .dialog-btn-secondary:hover {
-    background: #f8fafc;
+    background: #f0f9ff;
+    border-color: rgba(14, 165, 233, 0.4);
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(14, 165, 233, 0.1);
+}
+
+.dialog-btn:active {
+    transform: translateY(-1px);
 }
 
 /* Dialog Types */
 .dialog-overlay.warning .dialog-header {
-    background: linear-gradient(135deg, #f39c12, #e67e22);
+    background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
 }
 
 .dialog-overlay.success .dialog-header {
-    background: linear-gradient(135deg, #27ae60, #2ecc71);
+    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 }
 
 .dialog-overlay.error .dialog-header {
-    background: linear-gradient(135deg, #c0392b, #e74c3c);
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
 .dialog-overlay.info .dialog-header {
