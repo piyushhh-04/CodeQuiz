@@ -19,14 +19,14 @@
 }
 
 .dialog-container {
-    background: #1a1f2e;
+    background: #18181b;
     border-radius: 24px;
     width: 90%;
     max-width: 420px;
     box-shadow: 0 25px 70px rgba(0, 0, 0, 0.5);
     animation: slideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1);
     overflow: hidden;
-    border: 1.5px solid rgba(59, 130, 246, 0.15);
+    border: 1.5px solid rgba(99, 102, 241, 0.15);
 }
 
 @keyframes slideIn {
@@ -50,7 +50,7 @@
 }
 
 .dialog-header {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: white;
     padding: 24px 24px;
     display: flex;
@@ -72,7 +72,7 @@
 
 .dialog-body {
     padding: 28px 24px;
-    color: #f8f9fa;
+    color: #fafafa;
     font-size: 1.1rem;
     line-height: 1.6;
     font-weight: 500;
@@ -83,8 +83,8 @@
     display: flex;
     gap: 12px;
     justify-content: flex-end;
-    border-top: 1.5px solid rgba(59, 130, 246, 0.1);
-    background: rgba(22, 25, 43, 0.5);
+    border-top: 1.5px solid rgba(99, 102, 241, 0.1);
+    background: rgba(9, 9, 11, 0.5);
 }
 
 .dialog-btn {
@@ -102,27 +102,27 @@
 }
 
 .dialog-btn-primary {
-    background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+    background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: white;
-    box-shadow: 0 10px 30px rgba(59, 130, 246, 0.25);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.25);
 }
 
 .dialog-btn-secondary {
-    background: rgba(22, 25, 43, 0.6);
-    color: #f8f9fa;
-    border: 1.5px solid rgba(59, 130, 246, 0.25);
+    background: rgba(9, 9, 11, 0.6);
+    color: #fafafa;
+    border: 1.5px solid rgba(99, 102, 241, 0.25);
 }
 
 .dialog-btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 45px rgba(59, 130, 246, 0.35);
+    box-shadow: 0 15px 45px rgba(99, 102, 241, 0.35);
 }
 
 .dialog-btn-secondary:hover {
-    background: rgba(59, 130, 246, 0.1);
-    border-color: rgba(59, 130, 246, 0.4);
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.4);
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px rgba(59, 130, 246, 0.15);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.15);
 }
 
 .dialog-btn:active {
