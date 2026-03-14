@@ -25,11 +25,13 @@
 
         <form id="login-form">
             <div class="auth-input-group">
-                <i class="fas fa-envelope"></i>
+                <i class="fas fa-envelope" aria-hidden="true"></i>
+                <label for="email" class="sr-only">Email Address</label>
                 <input type="email" id="email" placeholder="Email Address" required>
             </div>
             <div class="auth-input-group">
-                <i class="fas fa-lock"></i>
+                <i class="fas fa-lock" aria-hidden="true"></i>
+                <label for="password" class="sr-only">Password</label>
                 <input type="password" id="password" placeholder="Password" required>
             </div>
             <button type="submit" class="auth-btn" id="login-btn">
@@ -38,6 +40,9 @@
             </button>
         </form>
 
+        <p class="auth-switch">
+            <a href="#" id="forgot-password-link">Forgot Password?</a>
+        </p>
         <p class="auth-switch">
             Don't have an account? <a href="signup.html">Sign Up</a>
         </p>
@@ -89,6 +94,34 @@
                 default: return "Login failed. Please try again.";
             }
         }
+
+        // Forgot Password
+        import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+        document.getElementById("forgot-password-link").addEventListener("click", async (e) => {
+            e.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            if (!email) {
+                errorMsg.textContent = "Please enter your email address first.";
+                errorMsg.style.display = "block";
+                return;
+            }
+            try {
+                await sendPasswordResetEmail(auth, email);
+                errorMsg.style.display = "none";
+                const successMsg = document.getElementById("error-msg");
+                successMsg.textContent = "Password reset email sent! Check your inbox.";
+                successMsg.style.display = "block";
+                successMsg.style.background = "rgba(16, 185, 129, 0.15)";
+                successMsg.style.color = "#86efac";
+                successMsg.style.borderColor = "rgba(16, 185, 129, 0.3)";
+            } catch (error) {
+                errorMsg.textContent = error.code === "auth/user-not-found"
+                    ? "No account found with this email."
+                    : "Failed to send reset email. Please try again.";
+                errorMsg.style.display = "block";
+            }
+        });
     </script>
 </body>
 

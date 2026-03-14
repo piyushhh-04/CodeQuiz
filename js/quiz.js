@@ -97,29 +97,6 @@ class QuizApp {
         clearQuizState(); // Always start fresh — don't resume mid-quiz
     }
 
-    // ====== Quiz State Persistence ======
-    tryRestoreQuizState() {
-        const saved = loadQuizState();
-        if (saved && saved.currentSubject && saved.questions && saved.questions.length > 0) {
-            // Restore state
-            this.currentSubject = saved.currentSubject;
-            this.allQuestions = quizData[saved.currentSubject] || [];
-            this.questions = saved.questions;
-            this.currentQuestionIndex = saved.currentQuestionIndex || 0;
-            this.correctCount = saved.correctCount || 0;
-            this.wrongCount = saved.wrongCount || 0;
-            this.score = saved.score || 0;
-            this.totalTime = saved.totalTime || 0;
-            this.chatHistory = saved.chatHistory || [];
-
-            // Update UI and jump to quiz
-            document.getElementById('current-subject').textContent = subjectNames[this.currentSubject];
-            document.getElementById('learning-subject').textContent = subjectNames[this.currentSubject];
-            this.showQuizTip();
-            this.showQuizScreen();
-        }
-    }
-
     persistQuizState() {
         saveQuizState({
             currentSubject: this.currentSubject,
@@ -508,7 +485,7 @@ class QuizApp {
             this.score += 10;
         } else {
             this.wrongCount++;
-            this.score -= 5;
+            this.score = Math.max(0, this.score - 5);
         }
 
         // Track answer for review
@@ -558,7 +535,7 @@ class QuizApp {
                     options[question.correct].classList.add('correct');
 
                     this.wrongCount++;
-                    this.score -= 5;
+                    this.score = Math.max(0, this.score - 5);
                     this.showQuizTip();
 
                     // Track timed-out answer
@@ -676,7 +653,10 @@ class QuizApp {
         const wrongAnswers = this.userAnswers.filter(a => !a.isCorrect);
 
         if (wrongAnswers.length === 0) {
-            container.innerHTML = '<p style="text-align:center; color: #aaa; padding: 1rem;">🎉 Perfect score! No wrong answers to review.</p>';
+            const p = document.createElement('p');
+            p.style.cssText = 'text-align:center; color: #aaa; padding: 1rem;';
+            p.textContent = '🎉 Perfect score! No wrong answers to review.';
+            container.appendChild(p);
             return;
         }
 
@@ -689,10 +669,6 @@ class QuizApp {
                 statusClass = 'review-timeout';
                 statusIcon = 'fas fa-clock';
                 statusLabel = 'Timed Out';
-            } else if (answer.isCorrect) {
-                statusClass = 'review-correct';
-                statusIcon = 'fas fa-check-circle';
-                statusLabel = 'Correct';
             } else {
                 statusClass = 'review-wrong';
                 statusIcon = 'fas fa-times-circle';
@@ -700,22 +676,57 @@ class QuizApp {
             }
 
             item.className = `review-item ${statusClass}`;
-            item.innerHTML = `
-                <div class="review-item-header">
-                    <span class="review-q-number">Q${i + 1}</span>
-                    <span class="review-status"><i class="${statusIcon}"></i> ${statusLabel}</span>
-                </div>
-                <p class="review-question-text">${q.question}</p>
-                <div class="review-answers">
-                    ${answer.timedOut ? '' : `<div class="review-answer your-answer ${answer.isCorrect ? 'is-correct' : 'is-wrong'}">
-                        <span class="answer-label">Your Answer:</span> ${q.options[answer.selectedIndex]}
-                    </div>`}
-                    ${!answer.isCorrect ? `<div class="review-answer correct-answer">
-                        <span class="answer-label">Correct:</span> ${q.options[q.correct]}
-                    </div>` : ''}
-                </div>
-            `;
 
+            // Build header
+            const header = document.createElement('div');
+            header.className = 'review-item-header';
+
+            const qNumber = document.createElement('span');
+            qNumber.className = 'review-q-number';
+            qNumber.textContent = `Q${i + 1}`;
+
+            const status = document.createElement('span');
+            status.className = 'review-status';
+            const statusI = document.createElement('i');
+            statusI.className = statusIcon;
+            status.appendChild(statusI);
+            status.appendChild(document.createTextNode(` ${statusLabel}`));
+
+            header.appendChild(qNumber);
+            header.appendChild(status);
+            item.appendChild(header);
+
+            // Question text
+            const questionText = document.createElement('p');
+            questionText.className = 'review-question-text';
+            questionText.textContent = q.question;
+            item.appendChild(questionText);
+
+            // Answers section
+            const answersDiv = document.createElement('div');
+            answersDiv.className = 'review-answers';
+
+            if (!answer.timedOut) {
+                const yourAnswer = document.createElement('div');
+                yourAnswer.className = 'review-answer your-answer is-wrong';
+                const yourLabel = document.createElement('span');
+                yourLabel.className = 'answer-label';
+                yourLabel.textContent = 'Your Answer: ';
+                yourAnswer.appendChild(yourLabel);
+                yourAnswer.appendChild(document.createTextNode(q.options[answer.selectedIndex]));
+                answersDiv.appendChild(yourAnswer);
+            }
+
+            const correctAnswer = document.createElement('div');
+            correctAnswer.className = 'review-answer correct-answer';
+            const correctLabel = document.createElement('span');
+            correctLabel.className = 'answer-label';
+            correctLabel.textContent = 'Correct: ';
+            correctAnswer.appendChild(correctLabel);
+            correctAnswer.appendChild(document.createTextNode(q.options[q.correct]));
+            answersDiv.appendChild(correctAnswer);
+
+            item.appendChild(answersDiv);
             container.appendChild(item);
         });
     }

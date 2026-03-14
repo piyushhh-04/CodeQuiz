@@ -936,10 +936,10 @@ const subjectNames = {
 
 // Subject descriptions
 const subjectDescriptions = {
-    python: "10 Question",
-    java: "10 Question",
-    html: "10 Question",
-    sql: "10 Question",
-    c: "10 Question",
-    cpp: "10 Question"
+    python: "10 Questions",
+    java: "10 Questions",
+    html: "10 Questions",
+    sql: "10 Questions",
+    c: "10 Questions",
+    cpp: "10 Questions"
 };
