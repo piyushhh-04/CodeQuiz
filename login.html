@@ -52,7 +52,8 @@
         import { auth } from "./js/firebase.js";
         import {
             signInWithEmailAndPassword,
-            onAuthStateChanged
+            onAuthStateChanged,
+            sendPasswordResetEmail
         } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
         // If already logged in, go to quiz
@@ -94,13 +95,16 @@
                 default: return "Login failed. Please try again.";
             }
         }
-
         // Forgot Password
-        import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
         document.getElementById("forgot-password-link").addEventListener("click", async (e) => {
             e.preventDefault();
             const email = document.getElementById("email").value.trim();
+
+            // Reset message styles to default error style
+            errorMsg.style.background = "";
+            errorMsg.style.color = "";
+            errorMsg.style.borderColor = "";
+
             if (!email) {
                 errorMsg.textContent = "Please enter your email address first.";
                 errorMsg.style.display = "block";
@@ -108,13 +112,12 @@
             }
             try {
                 await sendPasswordResetEmail(auth, email);
-                errorMsg.style.display = "none";
-                const successMsg = document.getElementById("error-msg");
-                successMsg.textContent = "Password reset email sent! Check your inbox.";
-                successMsg.style.display = "block";
-                successMsg.style.background = "rgba(16, 185, 129, 0.15)";
-                successMsg.style.color = "#86efac";
-                successMsg.style.borderColor = "rgba(16, 185, 129, 0.3)";
+                // Show success in green
+                errorMsg.textContent = "Password reset email sent! Check your inbox.";
+                errorMsg.style.display = "block";
+                errorMsg.style.background = "rgba(16, 185, 129, 0.15)";
+                errorMsg.style.color = "#86efac";
+                errorMsg.style.borderColor = "rgba(16, 185, 129, 0.3)";
             } catch (error) {
                 errorMsg.textContent = error.code === "auth/user-not-found"
                     ? "No account found with this email."
