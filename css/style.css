@@ -1448,3 +1448,26 @@ body {
     transform: translateY(-2px);
     box-shadow: 0 8px 20px rgba(220, 38, 38, 0.2);
 }
+
+.admin-link {
+    padding: 8px 18px;
+    border: 1.5px solid rgba(99, 102, 241, 0.3);
+    border-radius: 50px;
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.15), rgba(79, 70, 229, 0.15));
+    color: #818cf8;
+    font-weight: 700;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+}
+
+.admin-link:hover {
+    background: linear-gradient(135deg, #6366f1, #4f46e5);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+}

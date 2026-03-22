@@ -24,6 +24,9 @@
             <i class="fas fa-user-circle"></i>
             <span id="user-email"></span>
         </span>
+        <a id="admin-link" href="admin.html" class="admin-link" style="display:none;" aria-label="Admin Dashboard">
+            <i class="fas fa-shield-alt" aria-hidden="true"></i> Admin
+        </a>
         <button id="logout-btn" class="logout-btn" aria-label="Logout">
             <i class="fas fa-sign-out-alt" aria-hidden="true"></i> Logout
         </button>
@@ -250,12 +253,22 @@
     <!-- Auth Guard -->
     <script type="module">
         import { auth } from "./js/firebase.js";
-        import { signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+        import { signOut, onAuthStateChanged, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-        onAuthStateChanged(auth, (user) => {
+        onAuthStateChanged(auth, async (user) => {
             if (user) {
                 document.getElementById('user-bar').style.display = 'flex';
                 document.getElementById('user-email').textContent = user.email;
+
+                // Check admin role
+                try {
+                    const tokenResult = await getIdTokenResult(user);
+                    if (tokenResult.claims.admin) {
+                        document.getElementById('admin-link').style.display = 'inline-flex';
+                    }
+                } catch (e) {
+                    console.log('Admin check skipped');
+                }
             } else {
                 window.location.href = 'login.html';
             }
