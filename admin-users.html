@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="CodeQuiz Admin — View registered users.">
+    <title>CodeQuiz - Registered Users</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+
+<body>
+    <!-- Loading Screen -->
+    <div id="loading-screen" class="admin-loading">
+        <div class="loading-content">
+            <i class="fas fa-cog fa-spin"></i>
+            <p>Verifying admin access...</p>
+        </div>
+    </div>
+
+    <!-- Access Denied Screen -->
+    <div id="access-denied" class="screen" style="display: none;">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="denied-card">
+                        <i class="fas fa-shield-alt"></i>
+                        <h2>Access Denied</h2>
+                        <p>You don't have admin privileges. Please contact the administrator.</p>
+                        <a href="index.html" class="btn-primary">
+                            <i class="fas fa-arrow-left"></i> Back to CodeQuiz
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Users Page -->
+    <div id="admin-dashboard" style="display: none;">
+        <!-- Top Bar -->
+        <div class="admin-topbar">
+            <div class="topbar-left">
+                <a href="index.html" class="topbar-brand">
+                    <i class="fas fa-code"></i>
+                    <span>CodeQuiz</span>
+                </a>
+                <div class="topbar-divider"></div>
+                <span class="topbar-badge">Admin</span>
+            </div>
+            <div class="topbar-right">
+                <span class="admin-email" id="admin-email">
+                    <i class="fas fa-user-shield"></i>
+                    <span id="admin-email-text"></span>
+                </span>
+                <button id="admin-logout-btn" class="topbar-btn" aria-label="Logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="admin-content">
+            <!-- Back Button + Page Header -->
+            <div class="page-header">
+                <a href="admin.html" class="btn-back" title="Back to Dashboard">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Dashboard</span>
+                </a>
+                <h1 class="page-title">
+                    <i class="fas fa-users"></i> Registered Users
+                </h1>
+            </div>
+
+            <!-- Registered Users Section -->
+            <div class="admin-section" id="users-section">
+                <div id="users-loading" class="section-loading">
+                    <i class="fas fa-spinner fa-spin"></i> Loading users...
+                </div>
+                <div class="table-container" id="users-table-container" style="display:none;">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Email</th>
+                                <th>Joined</th>
+                                <th>Last Active</th>
+                                <th>Role</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-tbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast-notification" style="display: none;">
+        <i id="toast-icon" class="fas fa-check-circle"></i>
+        <span id="toast-message"></span>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script type="module" src="js/admin-users.js"></script>
+</body>
+
+</html>
