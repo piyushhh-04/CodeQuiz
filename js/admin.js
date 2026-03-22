@@ -18,7 +18,26 @@ const subjectNames = {
 // ====== State ======
 let currentUser = null;
 let idToken = null;
-let deleteTarget = null; // { subject, index }
+let deleteTarget = null;
+
+// ====== LocalStorage Persistence ======
+const STORAGE_KEY = "codequiz_admin_questions";
+
+function loadFromStorage() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        try {
+            const parsed = JSON.parse(saved);
+            // Replace quizData with saved version
+            Object.keys(quizData).forEach(k => delete quizData[k]);
+            Object.assign(quizData, parsed);
+        } catch (e) { console.log("No saved data"); }
+    }
+}
+
+function saveToStorage() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(quizData));
+}
 
 // ====== DOM ======
 const loadingScreen = document.getElementById("loading-screen");
@@ -55,6 +74,7 @@ function showDashboard(user) {
     adminDashboard.style.display = "block";
     document.getElementById("admin-email-text").textContent = user.email;
 
+    loadFromStorage();
     setupListeners();
     loadStats();
     loadUserCount();
@@ -289,6 +309,7 @@ function handleAddQuestion(e) {
     }
 
     quizData[subjectKey].push({ question, options, correct });
+    saveToStorage();
 
     closeAddModal();
     loadStats();
@@ -310,9 +331,9 @@ function handleDeleteConfirm() {
 
     if (quizData[subject] && quizData[subject][index]) {
         quizData[subject].splice(index, 1);
-        // Remove subject if empty
         if (quizData[subject].length === 0) delete quizData[subject];
     }
+    saveToStorage();
 
     closeDeleteModal();
     loadStats();
