@@ -610,6 +610,152 @@
     margin: 0;
 }
 
+/* ====== Clickable Stat ====== */
+.stat-clickable {
+    cursor: pointer;
+    position: relative;
+}
+
+.stat-clickable::after {
+    content: "Click to view →";
+    position: absolute;
+    bottom: 6px;
+    right: 12px;
+    font-size: 0.65rem;
+    color: #52525b;
+    font-weight: 600;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+
+.stat-clickable:hover::after {
+    opacity: 1;
+}
+
+.stat-clickable:hover {
+    border-color: rgba(245, 158, 11, 0.4);
+    box-shadow: 0 12px 40px rgba(245, 158, 11, 0.1);
+}
+
+/* ====== Users Modal ====== */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+    animation: fadeIn 0.2s ease;
+}
+
+.modal-container {
+    background: #18181b;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-strong);
+    box-shadow: 0 25px 80px rgba(0, 0, 0, 0.6);
+    animation: slideInUp 0.3s ease-out;
+}
+
+.users-modal-container {
+    max-width: 750px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 24px 16px;
+    border-bottom: 1px solid var(--border);
+}
+
+.modal-header h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #fafafa;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+}
+
+.modal-header h3 i {
+    color: #fbbf24;
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: #71717a;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 6px;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: #fafafa;
+}
+
+.modal-body {
+    padding: 20px 24px;
+}
+
+.users-modal-body {
+    padding: 0;
+}
+
+.users-modal-body .table-container {
+    border: none;
+    border-radius: 0;
+}
+
+.users-loading {
+    text-align: center;
+    padding: 3rem;
+    color: #818cf8;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.users-loading i {
+    margin-right: 8px;
+}
+
+.user-email-cell {
+    font-weight: 600;
+    color: #fafafa;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.role-admin {
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(217, 119, 6, 0.15));
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.25);
+}
+
+.role-user {
+    background: rgba(99, 102, 241, 0.1);
+    color: #a1a1aa;
+    border: 1px solid var(--border);
+}
+
 /* ====== Toast ====== */
 .toast-notification {
     position: fixed;

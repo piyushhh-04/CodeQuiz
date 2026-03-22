@@ -79,6 +79,83 @@ function setupListeners() {
 
     document.getElementById("filter-subject").addEventListener("change", renderQuestionsTable);
     document.getElementById("search-input").addEventListener("input", renderQuestionsTable);
+
+    // Users modal
+    document.getElementById("users-stat-card").addEventListener("click", openUsersModal);
+    document.getElementById("users-modal-close").addEventListener("click", closeUsersModal);
+    document.getElementById("users-modal").addEventListener("click", (e) => {
+        if (e.target.id === "users-modal") closeUsersModal();
+    });
+}
+
+// ====== Users Modal ======
+async function openUsersModal() {
+    const modal = document.getElementById("users-modal");
+    const loading = document.getElementById("users-loading");
+    const tableContainer = document.getElementById("users-table-container");
+
+    modal.style.display = "flex";
+    loading.style.display = "block";
+    tableContainer.style.display = "none";
+
+    try {
+        idToken = await getIdToken(currentUser);
+        const resp = await fetch(`${API_BASE_URL}/admin/users`, {
+            headers: { Authorization: `Bearer ${idToken}` }
+        });
+        const data = await resp.json();
+
+        const tbody = document.getElementById("users-tbody");
+        tbody.innerHTML = "";
+
+        data.users.forEach((user, i) => {
+            const tr = document.createElement("tr");
+
+            const tdNum = document.createElement("td");
+            tdNum.className = "num-cell";
+            tdNum.textContent = i + 1;
+
+            const tdEmail = document.createElement("td");
+            tdEmail.className = "user-email-cell";
+            tdEmail.textContent = user.email;
+
+            const tdJoined = document.createElement("td");
+            tdJoined.textContent = formatDate(user.createdAt);
+
+            const tdActive = document.createElement("td");
+            tdActive.textContent = formatDate(user.lastSignIn);
+
+            const tdRole = document.createElement("td");
+            const roleBadge = document.createElement("span");
+            if (user.isAdmin) {
+                roleBadge.className = "role-badge role-admin";
+                roleBadge.innerHTML = '<i class="fas fa-shield-alt"></i> Admin';
+            } else {
+                roleBadge.className = "role-badge role-user";
+                roleBadge.innerHTML = '<i class="fas fa-user"></i> User';
+            }
+            tdRole.appendChild(roleBadge);
+
+            tr.append(tdNum, tdEmail, tdJoined, tdActive, tdRole);
+            tbody.appendChild(tr);
+        });
+
+        loading.style.display = "none";
+        tableContainer.style.display = "block";
+    } catch (err) {
+        console.error("Failed to load users:", err);
+        loading.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to load users';
+    }
+}
+
+function closeUsersModal() {
+    document.getElementById("users-modal").style.display = "none";
+}
+
+function formatDate(dateStr) {
+    if (!dateStr) return "—";
+    const d = new Date(dateStr);
+    return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
 // ====== Load Stats from data.js ======
