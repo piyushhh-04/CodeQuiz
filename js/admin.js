@@ -11,6 +11,10 @@ const API_BASE_URL = window.location.hostname === 'localhost' || window.location
     ? 'http://localhost:5500'
     : 'https://codequiz-ai-server.onrender.com';
 
+// ====== State ======
+let currentUser = null;
+let idToken = null;
+
 // ====== DOM ======
 const loadingScreen = document.getElementById("loading-screen");
 const accessDenied = document.getElementById("access-denied");
@@ -23,7 +27,8 @@ onAuthStateChanged(auth, async (user) => {
         return;
     }
 
-    const idToken = await getIdToken(user);
+    currentUser = user;
+    idToken = await getIdToken(user);
 
     // Check admin status via backend
     try {
@@ -60,6 +65,7 @@ function showDashboard(user) {
     // Setup
     setupListeners();
     loadStats();
+    loadUserCount();
     populateSubjectFilter();
     renderQuestionsTable();
 }
@@ -90,11 +96,23 @@ function loadStats() {
 
     document.getElementById("stat-total-questions").textContent = totalQuestions;
     document.getElementById("stat-total-subjects").textContent = subjects.length;
-    document.getElementById("stat-per-subject").textContent = subjects.length > 0
-        ? Math.round(totalQuestions / subjects.length)
-        : 0;
 
     renderSubjectBars(subjectCounts);
+}
+
+// ====== Load User Count from Backend ======
+async function loadUserCount() {
+    try {
+        idToken = await getIdToken(currentUser);
+        const resp = await fetch(`${API_BASE_URL}/admin/users-count`, {
+            headers: { Authorization: `Bearer ${idToken}` }
+        });
+        const data = await resp.json();
+        document.getElementById("stat-users").textContent = data.totalUsers || 0;
+    } catch (err) {
+        console.error("Failed to load user count:", err);
+        document.getElementById("stat-users").textContent = "—";
+    }
 }
 
 function renderSubjectBars(subjects) {
