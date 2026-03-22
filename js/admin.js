@@ -6,42 +6,39 @@ import {
     getIdToken
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// API base URL
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5500'
     : 'https://codequiz-ai-server.onrender.com';
 
+const subjectNames = {
+    python: "Python", java: "Java", html: "HTML & CSS",
+    sql: "SQL", c: "C Programming", cpp: "C++"
+};
+
 // ====== State ======
 let currentUser = null;
 let idToken = null;
+let deleteTarget = null; // { subject, index }
 
 // ====== DOM ======
 const loadingScreen = document.getElementById("loading-screen");
 const accessDenied = document.getElementById("access-denied");
 const adminDashboard = document.getElementById("admin-dashboard");
 
-// ====== Auth Check ======
+// ====== Auth ======
 onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-        window.location.href = "login.html";
-        return;
-    }
+    if (!user) { window.location.href = "login.html"; return; }
 
     currentUser = user;
     idToken = await getIdToken(user);
 
-    // Check admin status via backend
     try {
         const resp = await fetch(`${API_BASE_URL}/auth/check-admin`, {
             headers: { Authorization: `Bearer ${idToken}` }
         });
         const data = await resp.json();
-
-        if (data.isAdmin) {
-            showDashboard(user);
-        } else {
-            showAccessDenied();
-        }
+        if (data.isAdmin) showDashboard(user);
+        else showAccessDenied();
     } catch (err) {
         console.error("Admin check failed:", err);
         showAccessDenied();
@@ -51,22 +48,19 @@ onAuthStateChanged(auth, async (user) => {
 function showAccessDenied() {
     loadingScreen.style.display = "none";
     accessDenied.style.display = "flex";
-    adminDashboard.style.display = "none";
 }
 
 function showDashboard(user) {
     loadingScreen.style.display = "none";
-    accessDenied.style.display = "none";
     adminDashboard.style.display = "block";
-
-    // Set email
     document.getElementById("admin-email-text").textContent = user.email;
 
-    // Setup
     setupListeners();
     loadStats();
     loadUserCount();
+    loadUsers();
     populateSubjectFilter();
+    populateSubjectDatalist();
     renderQuestionsTable();
 }
 
@@ -80,104 +74,51 @@ function setupListeners() {
     document.getElementById("filter-subject").addEventListener("change", renderQuestionsTable);
     document.getElementById("search-input").addEventListener("input", renderQuestionsTable);
 
-    // Users modal
-    document.getElementById("users-stat-card").addEventListener("click", openUsersModal);
-    document.getElementById("users-modal-close").addEventListener("click", closeUsersModal);
-    document.getElementById("users-modal").addEventListener("click", (e) => {
-        if (e.target.id === "users-modal") closeUsersModal();
+    // Stat card scroll-to
+    document.getElementById("questions-stat-card").addEventListener("click", () => {
+        document.getElementById("questions-section").scrollIntoView({ behavior: "smooth" });
+    });
+    document.getElementById("subjects-stat-card").addEventListener("click", () => {
+        document.getElementById("subject-section").scrollIntoView({ behavior: "smooth" });
+    });
+    document.getElementById("users-stat-card").addEventListener("click", () => {
+        document.getElementById("users-section").scrollIntoView({ behavior: "smooth" });
+    });
+
+    // Add question
+    document.getElementById("add-question-btn").addEventListener("click", openAddModal);
+    document.getElementById("modal-close-btn").addEventListener("click", closeAddModal);
+    document.getElementById("modal-cancel-btn").addEventListener("click", closeAddModal);
+    document.getElementById("question-modal").addEventListener("click", (e) => {
+        if (e.target.id === "question-modal") closeAddModal();
+    });
+    document.getElementById("question-form").addEventListener("submit", handleAddQuestion);
+
+    // Delete confirmation
+    document.getElementById("delete-modal-close").addEventListener("click", closeDeleteModal);
+    document.getElementById("delete-cancel-btn").addEventListener("click", closeDeleteModal);
+    document.getElementById("delete-confirm-btn").addEventListener("click", handleDeleteConfirm);
+    document.getElementById("delete-modal").addEventListener("click", (e) => {
+        if (e.target.id === "delete-modal") closeDeleteModal();
     });
 }
 
-// ====== Users Modal ======
-async function openUsersModal() {
-    const modal = document.getElementById("users-modal");
-    const loading = document.getElementById("users-loading");
-    const tableContainer = document.getElementById("users-table-container");
-
-    modal.style.display = "flex";
-    loading.style.display = "block";
-    tableContainer.style.display = "none";
-
-    try {
-        idToken = await getIdToken(currentUser);
-        const resp = await fetch(`${API_BASE_URL}/admin/users`, {
-            headers: { Authorization: `Bearer ${idToken}` }
-        });
-        const data = await resp.json();
-
-        const tbody = document.getElementById("users-tbody");
-        tbody.innerHTML = "";
-
-        data.users.forEach((user, i) => {
-            const tr = document.createElement("tr");
-
-            const tdNum = document.createElement("td");
-            tdNum.className = "num-cell";
-            tdNum.textContent = i + 1;
-
-            const tdEmail = document.createElement("td");
-            tdEmail.className = "user-email-cell";
-            tdEmail.textContent = user.email;
-
-            const tdJoined = document.createElement("td");
-            tdJoined.textContent = formatDate(user.createdAt);
-
-            const tdActive = document.createElement("td");
-            tdActive.textContent = formatDate(user.lastSignIn);
-
-            const tdRole = document.createElement("td");
-            const roleBadge = document.createElement("span");
-            if (user.isAdmin) {
-                roleBadge.className = "role-badge role-admin";
-                roleBadge.innerHTML = '<i class="fas fa-shield-alt"></i> Admin';
-            } else {
-                roleBadge.className = "role-badge role-user";
-                roleBadge.innerHTML = '<i class="fas fa-user"></i> User';
-            }
-            tdRole.appendChild(roleBadge);
-
-            tr.append(tdNum, tdEmail, tdJoined, tdActive, tdRole);
-            tbody.appendChild(tr);
-        });
-
-        loading.style.display = "none";
-        tableContainer.style.display = "block";
-    } catch (err) {
-        console.error("Failed to load users:", err);
-        loading.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to load users';
-    }
-}
-
-function closeUsersModal() {
-    document.getElementById("users-modal").style.display = "none";
-}
-
-function formatDate(dateStr) {
-    if (!dateStr) return "—";
-    const d = new Date(dateStr);
-    return d.toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
-}
-
-// ====== Load Stats from data.js ======
+// ====== Stats ======
 function loadStats() {
-    // quizData comes from data.js (loaded via <script> tag)
     const subjects = Object.keys(quizData);
-    let totalQuestions = 0;
-    const subjectCounts = {};
-
-    subjects.forEach(subject => {
-        const count = quizData[subject]?.length || 0;
-        totalQuestions += count;
-        subjectCounts[subject] = count;
+    let total = 0;
+    const counts = {};
+    subjects.forEach(s => {
+        const c = quizData[s]?.length || 0;
+        total += c;
+        counts[s] = c;
     });
 
-    document.getElementById("stat-total-questions").textContent = totalQuestions;
+    document.getElementById("stat-total-questions").textContent = total;
     document.getElementById("stat-total-subjects").textContent = subjects.length;
-
-    renderSubjectBars(subjectCounts);
+    renderSubjectBars(counts);
 }
 
-// ====== Load User Count from Backend ======
 async function loadUserCount() {
     try {
         idToken = await getIdToken(currentUser);
@@ -187,7 +128,6 @@ async function loadUserCount() {
         const data = await resp.json();
         document.getElementById("stat-users").textContent = data.totalUsers || 0;
     } catch (err) {
-        console.error("Failed to load user count:", err);
         document.getElementById("stat-users").textContent = "—";
     }
 }
@@ -195,109 +135,200 @@ async function loadUserCount() {
 function renderSubjectBars(subjects) {
     const container = document.getElementById("subject-bars");
     container.innerHTML = "";
+    const max = Math.max(...Object.values(subjects), 1);
 
-    const maxCount = Math.max(...Object.values(subjects), 1);
-
-    Object.entries(subjects)
-        .sort((a, b) => b[1] - a[1])
-        .forEach(([subject, count]) => {
-            const row = document.createElement("div");
-            row.className = "subject-bar-row";
-
-            const label = document.createElement("span");
-            label.className = "subject-bar-label";
-            label.textContent = subjectNames[subject] || subject;
-
-            const track = document.createElement("div");
-            track.className = "subject-bar-track";
-
-            const fill = document.createElement("div");
-            fill.className = "subject-bar-fill";
-            fill.style.width = `${(count / maxCount) * 100}%`;
-            track.appendChild(fill);
-
-            const countEl = document.createElement("span");
-            countEl.className = "subject-bar-count";
-            countEl.textContent = count;
-
-            row.append(label, track, countEl);
-            container.appendChild(row);
-        });
-}
-
-// ====== Question Browser ======
-function populateSubjectFilter() {
-    const select = document.getElementById("filter-subject");
-    while (select.options.length > 1) select.remove(1);
-
-    Object.keys(quizData).forEach(subject => {
-        const option = document.createElement("option");
-        option.value = subject;
-        option.textContent = subjectNames[subject] || subject;
-        select.appendChild(option);
+    Object.entries(subjects).sort((a, b) => b[1] - a[1]).forEach(([s, c]) => {
+        const row = document.createElement("div");
+        row.className = "subject-bar-row";
+        row.innerHTML = `
+            <span class="subject-bar-label">${subjectNames[s] || s}</span>
+            <div class="subject-bar-track">
+                <div class="subject-bar-fill" style="width:${(c / max) * 100}%"></div>
+            </div>
+            <span class="subject-bar-count">${c}</span>`;
+        container.appendChild(row);
     });
 }
 
+// ====== Users Section ======
+async function loadUsers() {
+    const loading = document.getElementById("users-loading");
+    const table = document.getElementById("users-table-container");
+
+    try {
+        idToken = await getIdToken(currentUser);
+        const resp = await fetch(`${API_BASE_URL}/admin/users`, {
+            headers: { Authorization: `Bearer ${idToken}` }
+        });
+        const data = await resp.json();
+        const tbody = document.getElementById("users-tbody");
+        tbody.innerHTML = "";
+
+        data.users.forEach((user, i) => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+                <td class="num-cell">${i + 1}</td>
+                <td class="user-email-cell">${user.email}</td>
+                <td>${formatDate(user.createdAt)}</td>
+                <td>${formatDate(user.lastSignIn)}</td>
+                <td>${user.isAdmin
+                    ? '<span class="role-badge role-admin"><i class="fas fa-shield-alt"></i> Admin</span>'
+                    : '<span class="role-badge role-user"><i class="fas fa-user"></i> User</span>'
+                }</td>`;
+            tbody.appendChild(tr);
+        });
+
+        loading.style.display = "none";
+        table.style.display = "block";
+    } catch (err) {
+        loading.innerHTML = '<i class="fas fa-exclamation-circle"></i> Failed to load users';
+    }
+}
+
+function formatDate(str) {
+    if (!str) return "—";
+    return new Date(str).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
+}
+
+// ====== Subject Filter & Datalist ======
+function populateSubjectFilter() {
+    const select = document.getElementById("filter-subject");
+    while (select.options.length > 1) select.remove(1);
+    Object.keys(quizData).forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = s;
+        opt.textContent = subjectNames[s] || s;
+        select.appendChild(opt);
+    });
+}
+
+function populateSubjectDatalist() {
+    const list = document.getElementById("subject-list");
+    list.innerHTML = "";
+    Object.keys(quizData).forEach(s => {
+        const opt = document.createElement("option");
+        opt.value = subjectNames[s] || s;
+        list.appendChild(opt);
+    });
+}
+
+// ====== Questions Table ======
 function renderQuestionsTable() {
     const filterSubject = document.getElementById("filter-subject").value;
-    const searchQuery = document.getElementById("search-input").value.toLowerCase().trim();
+    const search = document.getElementById("search-input").value.toLowerCase().trim();
     const tbody = document.getElementById("questions-tbody");
-    const emptyState = document.getElementById("empty-state");
-    const tableContainer = document.querySelector(".table-container");
+    const empty = document.getElementById("empty-state");
+    const tableEl = document.getElementById("questions-table-container");
     const footer = document.getElementById("table-footer");
 
     tbody.innerHTML = "";
-    let count = 0;
-    let total = 0;
+    let count = 0, total = 0;
 
     const subjects = filterSubject ? [filterSubject] : Object.keys(quizData);
 
     subjects.forEach(subject => {
-        const questions = quizData[subject] || [];
-        questions.forEach((q, idx) => {
+        (quizData[subject] || []).forEach((q, idx) => {
             total++;
-
-            // Search filter
-            if (searchQuery && !q.question.toLowerCase().includes(searchQuery)) {
-                return;
-            }
-
+            if (search && !q.question.toLowerCase().includes(search)) return;
             count++;
+
             const tr = document.createElement("tr");
-
-            // Number
-            const tdNum = document.createElement("td");
-            tdNum.className = "num-cell";
-            tdNum.textContent = count;
-
-            // Subject
-            const tdSubject = document.createElement("td");
-            const pill = document.createElement("span");
-            pill.className = "subject-pill";
-            pill.textContent = subjectNames[subject] || subject;
-            tdSubject.appendChild(pill);
-
-            // Question
-            const tdQuestion = document.createElement("td");
-            tdQuestion.className = "question-cell";
-            tdQuestion.textContent = q.question;
-
-            // Correct answer
-            const tdCorrect = document.createElement("td");
-            const badge = document.createElement("span");
-            badge.className = "correct-badge";
-            badge.innerHTML = `<i class="fas fa-check"></i> ${q.options[q.correct]}`;
-            tdCorrect.appendChild(badge);
-
-            tr.append(tdNum, tdSubject, tdQuestion, tdCorrect);
+            tr.innerHTML = `
+                <td class="num-cell">${count}</td>
+                <td><span class="subject-pill">${subjectNames[subject] || subject}</span></td>
+                <td class="question-cell">${q.question}</td>
+                <td><span class="correct-badge"><i class="fas fa-check"></i> ${q.options[q.correct]}</span></td>
+                <td>
+                    <button class="btn-delete-row" title="Delete question" data-subject="${subject}" data-index="${idx}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </td>`;
             tbody.appendChild(tr);
         });
     });
 
-    emptyState.style.display = count === 0 ? "block" : "none";
-    tableContainer.style.display = count === 0 ? "none" : "block";
+    // Attach delete handlers
+    tbody.querySelectorAll(".btn-delete-row").forEach(btn => {
+        btn.addEventListener("click", () => {
+            deleteTarget = { subject: btn.dataset.subject, index: parseInt(btn.dataset.index) };
+            document.getElementById("delete-modal").style.display = "flex";
+        });
+    });
 
-    footer.textContent = searchQuery
-        ? `Showing ${count} of ${total} questions`
-        : `${count} questions`;
+    empty.style.display = count === 0 ? "block" : "none";
+    tableEl.style.display = count === 0 ? "none" : "block";
+    footer.textContent = search ? `Showing ${count} of ${total} questions` : `${count} questions`;
+}
+
+// ====== Add Question ======
+function openAddModal() {
+    document.getElementById("question-form").reset();
+    document.getElementById("question-modal").style.display = "flex";
+}
+
+function closeAddModal() {
+    document.getElementById("question-modal").style.display = "none";
+}
+
+function handleAddQuestion(e) {
+    e.preventDefault();
+    const rawSubject = document.getElementById("form-subject").value.trim();
+    const question = document.getElementById("form-question").value.trim();
+    const options = [0, 1, 2, 3].map(i => document.getElementById(`form-option-${i}`).value.trim());
+    const correct = parseInt(document.getElementById("form-correct").value);
+
+    if (!rawSubject || !question || options.some(o => !o)) return;
+
+    // Normalize subject key
+    const subjectKey = rawSubject.toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+    // Create subject array if needed
+    if (!quizData[subjectKey]) {
+        quizData[subjectKey] = [];
+        if (!subjectNames[subjectKey]) subjectNames[subjectKey] = rawSubject;
+    }
+
+    quizData[subjectKey].push({ question, options, correct });
+
+    closeAddModal();
+    loadStats();
+    populateSubjectFilter();
+    populateSubjectDatalist();
+    renderQuestionsTable();
+    showToast(`Question added to "${subjectNames[subjectKey] || subjectKey}"!`);
+}
+
+// ====== Delete Question ======
+function closeDeleteModal() {
+    document.getElementById("delete-modal").style.display = "none";
+    deleteTarget = null;
+}
+
+function handleDeleteConfirm() {
+    if (!deleteTarget) return;
+    const { subject, index } = deleteTarget;
+
+    if (quizData[subject] && quizData[subject][index]) {
+        quizData[subject].splice(index, 1);
+        // Remove subject if empty
+        if (quizData[subject].length === 0) delete quizData[subject];
+    }
+
+    closeDeleteModal();
+    loadStats();
+    populateSubjectFilter();
+    populateSubjectDatalist();
+    renderQuestionsTable();
+    showToast("Question deleted!");
+}
+
+// ====== Toast ======
+function showToast(msg, type = "success") {
+    const toast = document.getElementById("toast");
+    const icon = document.getElementById("toast-icon");
+    document.getElementById("toast-message").textContent = msg;
+    toast.className = `toast-notification${type === "error" ? " toast-error" : ""}`;
+    icon.className = type === "error" ? "fas fa-exclamation-circle" : "fas fa-check-circle";
+    toast.style.display = "flex";
+    setTimeout(() => toast.style.display = "none", 3000);
 }
