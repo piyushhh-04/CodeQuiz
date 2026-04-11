@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="CodeQuiz — AI-powered programming quizzes with a personal AI tutor. Master Python, Java, HTML, SQL, C, and C++ through interactive learning and timed challenges.">
+    <title>CodeQuiz — Master Programming, One Question at a Time</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Landing Page CSS -->
+    <link rel="stylesheet" href="css/landing.css">
+</head>
+
+<body>
+
+    <!-- ============================== NAVBAR ============================== -->
+    <nav class="landing-nav" id="landing-nav" role="navigation" aria-label="Main navigation">
+        <a href="#" class="nav-logo" aria-label="CodeQuiz Home">
+            <i class="fas fa-code" aria-hidden="true"></i>
+            <span>CodeQuiz</span>
+        </a>
+
+        <!-- Mobile hamburger -->
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Toggle menu" aria-expanded="false">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <div class="nav-links" id="nav-links">
+            <a href="#features">Features</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#subjects">Subjects</a>
+        </div>
+
+        <div class="nav-actions">
+            <a href="login.html" class="nav-btn-ghost" id="nav-login-btn">Login</a>
+            <a href="signup.html" class="nav-btn-solid" id="nav-signup-btn">Sign Up</a>
+        </div>
+    </nav>
+
+
+    <!-- ============================== HERO ============================== -->
+    <section class="hero" id="hero">
+        <!-- Floating code particles -->
+        <div class="hero-particles" aria-hidden="true">
+            <span class="particle">def learn():</span>
+            <span class="particle">&lt;code /&gt;</span>
+            <span class="particle">SELECT * FROM</span>
+            <span class="particle">int main() {</span>
+            <span class="particle">import quiz</span>
+            <span class="particle">console.log()</span>
+            <span class="particle">class Quiz {}</span>
+            <span class="particle">for i in range:</span>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <i class="fas fa-circle" aria-hidden="true"></i>
+                AI-Powered Learning Platform
+            </div>
+
+            <h1 class="hero-title">
+                Master Programming,<br>
+                <span class="highlight">One Question at a Time</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Learn from a personal AI tutor, then prove your skills with timed quizzes. 
+                6 languages, 180+ questions, instant feedback — all free.
+            </p>
+
+            <div class="hero-actions">
+                <a href="signup.html" class="btn-hero-primary" id="hero-cta-primary">
+                    Get Started — It's Free
+                    <i class="fas fa-arrow-right" aria-hidden="true"></i>
+                </a>
+                <a href="#features" class="btn-hero-secondary" id="hero-cta-secondary">
+                    <i class="fas fa-play-circle" aria-hidden="true"></i>
+                    Learn More
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-fade" aria-hidden="true"></div>
+    </section>
+
+
+    <!-- ============================== FEATURES ============================== -->
+    <section class="landing-section features" id="features">
+        <span class="section-label">
+            <i class="fas fa-sparkles" aria-hidden="true"></i>
+            Why CodeQuiz?
+        </span>
+        <h2 class="section-title">Everything You Need to Level Up</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+            A complete learning experience — from AI-powered explanations to real-time quizzes.
+        </p>
+
+        <div class="features-grid">
+            <!-- Feature 1 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-robot" aria-hidden="true"></i>
+                </div>
+                <h3>AI Tutor</h3>
+                <p>Chat with an intelligent AI tutor before every quiz. Ask questions, get code examples, and learn concepts at your own pace.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-stopwatch" aria-hidden="true"></i>
+                </div>
+                <h3>Timed Quizzes</h3>
+                <p>10 randomized questions, 30-second timer per question. Test yourself under real pressure and sharpen your speed.</p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="feature-card">
+                <div class="feature-icon">
+                    <i class="fas fa-chart-line" aria-hidden="true"></i>
+                </div>
+                <h3>Instant Feedback</h3>
+                <p>See your score, accuracy, and time stats instantly. Review every mistake with the correct answers highlighted.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================== HOW IT WORKS ============================== -->
+    <section class="landing-section how-it-works" id="how-it-works">
+        <span class="section-label">
+            <i class="fas fa-route" aria-hidden="true"></i>
+            How It Works
+        </span>
+        <h2 class="section-title">Three Steps to Mastery</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+            A simple, powerful workflow designed to help you learn and retain.
+        </p>
+
+        <div class="steps-container">
+            <!-- Step 1 -->
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-connector" aria-hidden="true"></div>
+                <div class="step-icon"><i class="fas fa-book-open" aria-hidden="true"></i></div>
+                <h3>Pick a Subject</h3>
+                <p>Choose from Python, Java, HTML, SQL, C, or C++ — each with 30 curated questions.</p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-connector" aria-hidden="true"></div>
+                <div class="step-icon"><i class="fas fa-comments" aria-hidden="true"></i></div>
+                <h3>Learn with AI</h3>
+                <p>Chat with your AI tutor to understand key concepts. Ask anything before the quiz begins.</p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-icon"><i class="fas fa-trophy" aria-hidden="true"></i></div>
+                <h3>Take the Quiz</h3>
+                <p>Answer 10 randomized questions against the clock. Get instant results and learn from your mistakes.</p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================== SUBJECTS ============================== -->
+    <section class="landing-section subjects-showcase" id="subjects">
+        <span class="section-label">
+            <i class="fas fa-laptop-code" aria-hidden="true"></i>
+            Subjects
+        </span>
+        <h2 class="section-title">6 Languages, 180+ Questions</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">
+            Pick your battlefield. Each subject comes with carefully crafted questions.
+        </p>
+
+        <div class="subjects-orbit">
+            <div class="orbit-item" title="Python">
+                <i class="fab fa-python" aria-hidden="true"></i>
+                <span>Python</span>
+            </div>
+            <div class="orbit-item" title="Java">
+                <i class="fab fa-java" aria-hidden="true"></i>
+                <span>Java</span>
+            </div>
+            <div class="orbit-item" title="HTML">
+                <i class="fab fa-html5" aria-hidden="true"></i>
+                <span>HTML</span>
+            </div>
+            <div class="orbit-item" title="SQL">
+                <i class="fas fa-database" aria-hidden="true"></i>
+                <span>SQL</span>
+            </div>
+            <div class="orbit-item" title="C">
+                <i class="fas fa-copyright" aria-hidden="true"></i>
+                <span>C</span>
+            </div>
+            <div class="orbit-item" title="C++">
+                <i class="fas fa-plus-circle" aria-hidden="true"></i>
+                <span>C++</span>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================== STATS ============================== -->
+    <section class="landing-section stats-section" id="stats">
+        <span class="section-label">
+            <i class="fas fa-fire" aria-hidden="true"></i>
+            By The Numbers
+        </span>
+        <h2 class="section-title">Built for Learners</h2>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-layer-group" aria-hidden="true"></i></div>
+                <div class="stat-value" data-count="6" data-suffix="+">0</div>
+                <div class="stat-label">Subjects</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-question-circle" aria-hidden="true"></i></div>
+                <div class="stat-value" data-count="180" data-suffix="+">0</div>
+                <div class="stat-label">Questions</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-brain" aria-hidden="true"></i></div>
+                <div class="stat-value">AI</div>
+                <div class="stat-label">Powered</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon"><i class="fas fa-dollar-sign" aria-hidden="true"></i></div>
+                <div class="stat-value" data-count="100" data-suffix="%">0</div>
+                <div class="stat-label">Free</div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ============================== CTA ============================== -->
+    <section class="cta-section" id="cta">
+        <div class="cta-card">
+            <h2>Ready to Test Your Skills?</h2>
+            <p>Join CodeQuiz and start mastering programming languages with AI-powered learning.</p>
+            <a href="signup.html" class="btn-hero-primary" id="cta-btn">
+                Start Now — It's Free
+                <i class="fas fa-rocket" aria-hidden="true"></i>
+            </a>
+        </div>
+    </section>
+
+
+    <!-- ============================== FOOTER ============================== -->
+    <footer class="landing-footer" role="contentinfo">
+        <div class="footer-inner">
+            <div class="footer-logo">
+                <i class="fas fa-code" aria-hidden="true"></i>
+                <span>CodeQuiz</span>
+            </div>
+
+            <p class="footer-text">© 2026 CodeQuiz. Built with <i class="fas fa-heart" style="color:#f43f5e;font-size:0.75rem;" aria-hidden="true"></i> for learners.</p>
+
+            <div class="footer-links">
+                <a href="login.html">Login</a>
+                <a href="signup.html">Sign Up</a>
+            </div>
+        </div>
+    </footer>
+
+
+    <!-- Landing Page JS -->
+    <script src="js/landing.js"></script>
+
+</body>
+
+</html>

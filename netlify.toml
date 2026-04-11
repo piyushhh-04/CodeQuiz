@@ -3,6 +3,6 @@
   command = "echo 'Frontend is static HTML'"
 
 [[redirects]]
-  from = "/*"
-  to = "/index.html"
+  from = "/"
+  to = "/landing.html"
   status = 200
