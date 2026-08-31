@@ -79,6 +79,8 @@ class QuizApp {
         this.totalTime = 0;
         this.selectedOption = null;
         this.userAnswers = [];
+        this.currentScreen = 'welcome';
+        this.chatHistory = [];
 
         // DOM Elements
         this.welcomeScreen = document.getElementById('welcome-screen');
@@ -94,7 +96,7 @@ class QuizApp {
     init() {
         this.loadSubjects();
         this.setupEventListeners();
-        clearQuizState(); // Always start fresh — don't resume mid-quiz
+        this.restoreQuizState();
     }
 
     persistQuizState() {
@@ -106,8 +108,61 @@ class QuizApp {
             wrongCount: this.wrongCount,
             score: this.score,
             totalTime: this.totalTime,
+            userAnswers: this.userAnswers || [],
             chatHistory: this.chatHistory || [],
+            screen: this.currentScreen,
         });
+    }
+
+    restoreQuizState() {
+        const savedState = loadQuizState();
+
+        if (!savedState) {
+            this.showWelcomeScreen();
+            return;
+        }
+
+        this.currentSubject = savedState.currentSubject || '';
+        this.questions = Array.isArray(savedState.questions) ? savedState.questions : [];
+        this.currentQuestionIndex = Number.isInteger(savedState.currentQuestionIndex) ? savedState.currentQuestionIndex : 0;
+        this.correctCount = Number.isInteger(savedState.correctCount) ? savedState.correctCount : 0;
+        this.wrongCount = Number.isInteger(savedState.wrongCount) ? savedState.wrongCount : 0;
+        this.score = Number.isInteger(savedState.score) ? savedState.score : 0;
+        this.totalTime = Number.isInteger(savedState.totalTime) ? savedState.totalTime : 0;
+        this.userAnswers = Array.isArray(savedState.userAnswers) ? savedState.userAnswers : [];
+        this.chatHistory = Array.isArray(savedState.chatHistory) ? savedState.chatHistory : [];
+        this.currentScreen = savedState.screen || 'welcome';
+
+        if (!this.currentSubject || !this.questions.length) {
+            clearQuizState();
+            this.showWelcomeScreen();
+            return;
+        }
+
+        const subjectLabel = subjectNames[this.currentSubject] || this.currentSubject;
+        document.getElementById('current-subject').textContent = subjectLabel;
+        document.getElementById('learning-subject').textContent = subjectLabel;
+
+        if (this.currentScreen === 'learning') {
+            this.showLearningScreen();
+            return;
+        }
+
+        if (this.currentScreen === 'quiz') {
+            this.welcomeScreen.classList.remove('active');
+            this.learningScreen.classList.remove('active');
+            this.scoreboardScreen.classList.remove('active');
+            this.quizScreen.classList.add('active');
+            this.loadQuestion();
+            return;
+        }
+
+        if (this.currentScreen === 'scoreboard') {
+            this.showScoreboard();
+            return;
+        }
+
+        this.showWelcomeScreen();
     }
 
     loadSubjects() {
@@ -211,9 +266,6 @@ class QuizApp {
         // Reset chat history
         this.chatHistory = [];
 
-        // Clear any previous saved state
-        clearQuizState();
-
         // Update UI
         document.getElementById('current-subject').textContent = subjectNames[subject];
         document.getElementById('learning-subject').textContent = subjectNames[subject];
@@ -224,11 +276,15 @@ class QuizApp {
     }
 
     showLearningScreen() {
+        this.currentScreen = 'learning';
+
         // Switch to learning screen
         this.welcomeScreen.classList.remove('active');
         this.quizScreen.classList.remove('active');
         this.scoreboardScreen.classList.remove('active');
         this.learningScreen.classList.add('active');
+
+        this.persistQuizState();
 
         // Clear chat messages and show welcome
         const chatMessages = document.getElementById('chat-messages');
@@ -381,6 +437,7 @@ class QuizApp {
     }
 
     showQuizScreen() {
+        this.currentScreen = 'quiz';
         this.learningScreen.classList.remove('active');
         this.welcomeScreen.classList.remove('active');
         this.quizScreen.classList.add('active');
@@ -606,9 +663,10 @@ class QuizApp {
 
     showScoreboard() {
         this.resetTimer();
+        this.currentScreen = 'scoreboard';
 
-        // Clear saved state — quiz is complete
-        clearQuizState();
+        // Save current result state so refresh resumes on the result page
+        this.persistQuizState();
 
         // Switch screens
         this.quizScreen.classList.remove('active');
@@ -733,7 +791,7 @@ class QuizApp {
 
     showWelcomeScreen() {
         this.resetTimer();
-        clearQuizState();
+        this.currentScreen = 'welcome';
         this.welcomeScreen.classList.add('active');
         this.learningScreen.classList.remove('active');
         this.quizScreen.classList.remove('active');
