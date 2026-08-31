@@ -241,28 +241,29 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 18px;
+    margin-bottom: 24px;
     flex-wrap: wrap;
-    gap: 15px;
-    padding-bottom: 16px;
+    gap: 18px;
+    padding-bottom: 18px;
     border-bottom: 1px solid rgba(99, 102, 241, 0.12);
 }
 
 .back-btn {
     background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(99, 102, 241, 0.25);
+    border: 1px solid rgba(99, 102, 241, 0.28);
     color: #fafafa;
-    font-size: 1.18rem;
+    font-size: 1.28rem;
     font-weight: 700;
     cursor: pointer;
-    padding: 14px 26px;
+    padding: 15px 28px;
     border-radius: 18px;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 10px;
-    min-width: 120px;
+    min-width: 136px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    margin-right: auto;
 }
 
 .back-btn:hover {
@@ -275,15 +276,16 @@ body {
 .subject-badge {
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: white;
-    padding: 14px 34px;
+    padding: 16px 34px;
     border-radius: 999px;
     font-weight: 800;
-    font-size: 1.4rem;
+    font-size: 1.55rem;
     letter-spacing: 0.5px;
     box-shadow: 0 15px 45px rgba(99, 102, 241, 0.28);
     transition: all 0.3s ease;
-    min-width: 180px;
+    min-width: 188px;
     text-align: center;
+    margin: 0 auto;
 }
 
 .subject-badge:hover {
@@ -863,20 +865,21 @@ body {
 }
 
 .btn-start-quiz {
-    padding: 14px 28px;
+    padding: 16px 30px;
     border: none;
     border-radius: 18px;
     font-weight: 800;
-    font-size: 1.15rem;
+    font-size: 1.28rem;
     cursor: pointer;
     background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
     color: white;
-    box-shadow: 0 15px 45px rgba(99, 102, 241, 0.28);
+    box-shadow: 0 15px 45px rgba(99, 102, 241, 0.3);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
     gap: 10px;
     letter-spacing: 0.3px;
+    margin-left: auto;
 }
 
 .btn-start-quiz:hover {
@@ -889,10 +892,10 @@ body {
     flex: 1;
     min-height: 0;
     overflow: hidden;
-    border-radius: 18px;
+    border-radius: 22px;
     border: 1px solid rgba(99, 102, 241, 0.12);
     background: rgba(15, 18, 25, 0.26);
-    margin-bottom: 12px;
+    margin-bottom: 18px;
     box-shadow: none;
 }
 
@@ -920,11 +923,11 @@ body {
 
 /* Chat Bubbles */
 .chat-bubble {
-    max-width: 85%;
-    padding: 12px 18px;
-    border-radius: 18px;
-    line-height: 1.6;
-    font-size: 0.95rem;
+    max-width: 88%;
+    padding: 16px 20px;
+    border-radius: 20px;
+    line-height: 1.7;
+    font-size: 1.08rem;
     animation: bubbleIn 0.3s ease;
     position: relative;
 }
@@ -951,10 +954,10 @@ body {
 }
 
 .chat-bubble.ai .bubble-label {
-    font-size: 0.75rem;
+    font-size: 0.8rem;
     font-weight: 700;
     color: #818cf8;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -976,7 +979,8 @@ body {
 }
 
 .chat-bubble.ai p {
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.7rem;
+    font-size: 1.08rem;
 }
 
 .chat-bubble.ai ul {
@@ -1060,24 +1064,24 @@ body {
 /* Quick Prompts */
 .quick-prompts {
     display: flex;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 12px;
+    margin-bottom: 14px;
     flex-wrap: wrap;
 }
 
 .quick-prompt-btn {
-    padding: 9px 20px;
+    padding: 11px 20px;
     border: 1.5px solid rgba(99, 102, 241, 0.2);
     border-radius: 50px;
     background: rgba(9, 9, 11, 0.6);
     color: #fafafa;
-    font-size: 0.9rem;
-    font-weight: 600;
+    font-size: 0.96rem;
+    font-weight: 700;
     cursor: pointer;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .quick-prompt-btn:hover {
@@ -1099,10 +1103,10 @@ body {
 
 .chat-input {
     flex: 1;
-    padding: 14px 22px;
+    padding: 18px 24px;
     border: 1.5px solid rgba(99, 102, 241, 0.2);
     border-radius: 50px;
-    font-size: 1rem;
+    font-size: 1.1rem;
     font-weight: 500;
     color: #fafafa;
     outline: none;
