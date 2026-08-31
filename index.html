@@ -277,6 +277,7 @@
         });
 
         document.getElementById('logout-btn').addEventListener('click', async () => {
+            localStorage.removeItem('quizState');
             await signOut(auth);
             window.location.href = 'login.html';
         });

@@ -669,6 +669,8 @@ class QuizApp {
         this.persistQuizState();
 
         // Switch screens
+        this.welcomeScreen.classList.remove('active');
+        this.learningScreen.classList.remove('active');
         this.quizScreen.classList.remove('active');
         this.scoreboardScreen.classList.add('active');
 
