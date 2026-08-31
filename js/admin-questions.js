@@ -197,7 +197,14 @@ function handleAddQuestion(e) {
 
     if (!rawSubject || !question || options.some(o => !o)) return;
 
-    const subjectKey = rawSubject.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const rawSubjectLower = rawSubject.toLowerCase();
+    let subjectKey = Object.keys(subjectNames).find(
+        k => k.toLowerCase() === rawSubjectLower || (subjectNames[k] && subjectNames[k].toLowerCase() === rawSubjectLower)
+    );
+
+    if (!subjectKey) {
+        subjectKey = rawSubjectLower.replace(/[^a-z0-9]+/g, '');
+    }
 
     if (!quizData[subjectKey]) {
         quizData[subjectKey] = [];
