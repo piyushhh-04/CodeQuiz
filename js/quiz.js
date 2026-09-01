@@ -2,7 +2,7 @@
 // Change this to your production server URL when deploying
 const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
     ? 'http://localhost:5500'
-    : 'https://codequiz-ai-server.onrender.com';
+    : 'https://codequiz-api.onrender.com';
 
 // ====== HTML Sanitizer (XSS Protection) ======
 const ALLOWED_TAGS = new Set([
