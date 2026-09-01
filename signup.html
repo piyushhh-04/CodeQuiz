@@ -29,15 +29,22 @@
                 <label for="email" class="sr-only">Email Address</label>
                 <input type="email" id="email" placeholder="Email Address" required>
             </div>
-            <div class="auth-input-group">
+            <div class="auth-input-group auth-password-group">
                 <i class="fas fa-lock" aria-hidden="true"></i>
                 <label for="password" class="sr-only">Password</label>
                 <input type="password" id="password" placeholder="Password (min 6 chars)" required minlength="6">
+                <button type="button" class="password-toggle" id="password-toggle" aria-label="Show password">
+                    <i class="fas fa-eye"></i>
+                </button>
             </div>
-            <div class="auth-input-group">
+            <div class="auth-input-group auth-password-group">
                 <i class="fas fa-shield-alt" aria-hidden="true"></i>
                 <label for="confirm-password" class="sr-only">Confirm Password</label>
                 <input type="password" id="confirm-password" placeholder="Confirm Password" required minlength="6">
+                <button type="button" class="password-toggle" id="confirm-password-toggle" aria-label="Show password">
+                    <i class="fas fa-eye"></i>
+                </button>
+                <div id="password-match-msg" class="password-status" aria-live="polite"></div>
             </div>
             <button type="submit" class="auth-btn" id="signup-btn">
                 <span>Sign Up</span>
@@ -65,18 +72,70 @@
         const form = document.getElementById("signup-form");
         const errorMsg = document.getElementById("error-msg");
         const signupBtn = document.getElementById("signup-btn");
+        const passwordInput = document.getElementById("password");
+        const confirmPasswordInput = document.getElementById("confirm-password");
+        const passwordMatchMsg = document.getElementById("password-match-msg");
+
+        function setupPasswordToggle(inputId, buttonId) {
+            const input = document.getElementById(inputId);
+            const toggle = document.getElementById(buttonId);
+
+            if (!input || !toggle) return;
+
+            toggle.addEventListener("click", () => {
+                const isPasswordHidden = input.type === "password";
+                input.type = isPasswordHidden ? "text" : "password";
+                toggle.innerHTML = isPasswordHidden
+                    ? '<i class="fas fa-eye-slash"></i>'
+                    : '<i class="fas fa-eye"></i>';
+                toggle.setAttribute("aria-label", isPasswordHidden ? "Hide password" : "Show password");
+            });
+        }
+
+        function validateConfirmPassword() {
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (!confirmPassword) {
+                passwordMatchMsg.textContent = "";
+                passwordMatchMsg.className = "password-status";
+                confirmPasswordInput.classList.remove("is-invalid", "is-valid");
+                return false;
+            }
+
+            if (password !== confirmPassword) {
+                passwordMatchMsg.textContent = "Passwords do not match.";
+                passwordMatchMsg.className = "password-status error";
+                confirmPasswordInput.classList.add("is-invalid");
+                confirmPasswordInput.classList.remove("is-valid");
+                return false;
+            }
+
+            passwordMatchMsg.textContent = "Passwords match.";
+            passwordMatchMsg.className = "password-status success";
+            confirmPasswordInput.classList.add("is-valid");
+            confirmPasswordInput.classList.remove("is-invalid");
+            return true;
+        }
+
+        setupPasswordToggle("password", "password-toggle");
+        setupPasswordToggle("confirm-password", "confirm-password-toggle");
+        [passwordInput, confirmPasswordInput].forEach((input) => {
+            input.addEventListener("input", validateConfirmPassword);
+        });
 
         form.addEventListener("submit", async (e) => {
             e.preventDefault();
             errorMsg.style.display = "none";
 
             const email = document.getElementById("email").value;
-            const password = document.getElementById("password").value;
-            const confirmPassword = document.getElementById("confirm-password").value;
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
 
             if (password !== confirmPassword) {
                 errorMsg.textContent = "Passwords do not match.";
                 errorMsg.style.display = "block";
+                validateConfirmPassword();
                 return;
             }
 
