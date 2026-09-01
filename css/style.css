@@ -1335,7 +1335,13 @@ body {
     font-family: inherit;
 }
 
-.auth-password-group input {
+.password-field {
+    position: relative;
+    width: 100%;
+}
+
+.password-field input {
+    width: 100%;
     padding-right: 46px;
 }
 
@@ -1388,20 +1394,24 @@ body {
 }
 
 .password-status {
-    display: none;
+    min-height: 1rem;
     margin-top: 0.45rem;
     font-size: 0.8rem;
     font-weight: 600;
     text-align: left;
+    visibility: hidden;
+    opacity: 0;
 }
 
 .password-status.error {
-    display: block;
+    visibility: visible;
+    opacity: 1;
     color: #fca5a5;
 }
 
 .password-status.success {
-    display: block;
+    visibility: visible;
+    opacity: 1;
     color: #86efac;
 }
 

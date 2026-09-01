@@ -32,18 +32,22 @@
             <div class="auth-input-group auth-password-group">
                 <i class="fas fa-lock" aria-hidden="true"></i>
                 <label for="password" class="sr-only">Password</label>
-                <input type="password" id="password" placeholder="Password (min 6 chars)" required minlength="6">
-                <button type="button" class="password-toggle" id="password-toggle" aria-label="Show password">
-                    <i class="fas fa-eye"></i>
-                </button>
+                <div class="password-field">
+                    <input type="password" id="password" placeholder="Password (min 6 chars)" required minlength="6">
+                    <button type="button" class="password-toggle" id="password-toggle" aria-label="Show password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
             </div>
             <div class="auth-input-group auth-password-group">
                 <i class="fas fa-shield-alt" aria-hidden="true"></i>
                 <label for="confirm-password" class="sr-only">Confirm Password</label>
-                <input type="password" id="confirm-password" placeholder="Confirm Password" required minlength="6">
-                <button type="button" class="password-toggle" id="confirm-password-toggle" aria-label="Show password">
-                    <i class="fas fa-eye"></i>
-                </button>
+                <div class="password-field">
+                    <input type="password" id="confirm-password" placeholder="Confirm Password" required minlength="6">
+                    <button type="button" class="password-toggle" id="confirm-password-toggle" aria-label="Show password">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
                 <div id="password-match-msg" class="password-status" aria-live="polite"></div>
             </div>
             <button type="submit" class="auth-btn" id="signup-btn">
