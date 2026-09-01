@@ -1322,6 +1322,11 @@ body {
     font-size: 0.95rem;
 }
 
+.auth-password-group > i {
+    top: 22px;
+    transform: none;
+}
+
 .auth-input-group input {
     width: 100%;
     padding: 14px 16px 14px 45px;
