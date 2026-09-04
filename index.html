@@ -250,6 +250,7 @@
     <script src="js/data.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/dialog.js"></script>
+    <script src="js/config.js"></script>
     <script src="js/quiz.js"></script>
 
     <!-- Auth Guard -->
@@ -259,6 +260,7 @@
 
         onAuthStateChanged(auth, async (user) => {
             if (user) {
+                window.codeQuizGetIdToken = () => user.getIdToken();
                 document.getElementById('user-bar').style.display = 'flex';
                 document.getElementById('user-email').textContent = user.email;
 
@@ -272,6 +274,7 @@
                     console.log('Admin check skipped');
                 }
             } else {
+                delete window.codeQuizGetIdToken;
                 window.location.href = 'login.html';
             }
         });
@@ -284,4 +287,4 @@
     </script>
 </body>
 
-</html>
+</html>

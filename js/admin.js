@@ -6,9 +6,7 @@ import {
     getIdToken
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5500'
-    : 'https://codequiz-ai-server.onrender.com';
+const API_BASE_URL = window.CODEQUIZ_API_BASE_URL;
 
 const subjectNames = {
     python: "Python", java: "Java", html: "HTML & CSS",
@@ -18,20 +16,6 @@ const subjectNames = {
 // ====== State ======
 let currentUser = null;
 let idToken = null;
-
-// ====== LocalStorage Persistence ======
-const STORAGE_KEY = "codequiz_admin_questions";
-
-function loadFromStorage() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-        try {
-            const parsed = JSON.parse(saved);
-            Object.keys(quizData).forEach(k => delete quizData[k]);
-            Object.assign(quizData, parsed);
-        } catch (e) { console.log("No saved data"); }
-    }
-}
 
 // ====== DOM ======
 const loadingScreen = document.getElementById("loading-screen");
@@ -50,7 +34,7 @@ onAuthStateChanged(auth, async (user) => {
             headers: { Authorization: `Bearer ${idToken}` }
         });
         const data = await resp.json();
-        if (data.isAdmin) showDashboard(user);
+        if (data.isAdmin) await showDashboard(user);
         else showAccessDenied();
     } catch (err) {
         console.error("Admin check failed:", err);
@@ -63,15 +47,62 @@ function showAccessDenied() {
     accessDenied.style.display = "flex";
 }
 
-function showDashboard(user) {
+async function showDashboard(user) {
     loadingScreen.style.display = "none";
     adminDashboard.style.display = "block";
     document.getElementById("admin-email-text").textContent = user.email;
 
-    loadFromStorage();
     setupListeners();
+    try {
+        await loadQuestions();
+    } catch (error) {
+        console.error("Question catalog unavailable:", error);
+        showToast("Question catalog is unavailable. Showing bundled questions.", "error");
+    }
     loadStats();
     loadUserCount();
+}
+
+function replaceQuestions(questionMap) {
+    Object.keys(quizData).forEach(subject => delete quizData[subject]);
+    Object.assign(quizData, questionMap);
+}
+
+function questionCount(questionMap) {
+    return Object.values(questionMap || {}).reduce(
+        (total, questions) => total + (Array.isArray(questions) ? questions.length : 0), 0
+    );
+}
+
+async function loadQuestions() {
+    const token = await getIdToken(currentUser);
+    const response = await fetch(`${API_BASE_URL}/admin/questions`, {
+        headers: { Authorization: `Bearer ${token}` }
+    });
+    if (!response.ok) throw new Error(`Question catalog request failed (${response.status})`);
+
+    const data = await response.json();
+    if (data.source === "unavailable") throw new Error("Persistent question storage is unavailable.");
+    if (data.source === "default" && questionCount(data.questions) < questionCount(quizData)) {
+        const bootstrap = await fetch(`${API_BASE_URL}/admin/questions/bootstrap`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${token}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ questions: quizData })
+        });
+        if (!bootstrap.ok) throw new Error(`Question catalog bootstrap failed (${bootstrap.status})`);
+        const refreshed = await fetch(`${API_BASE_URL}/admin/questions`, {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!refreshed.ok) throw new Error(`Question catalog refresh failed (${refreshed.status})`);
+        const refreshedData = await refreshed.json();
+        if (refreshedData.questions) replaceQuestions(refreshedData.questions);
+        return;
+    }
+
+    if (data.questions) replaceQuestions(data.questions);
 }
 
 // ====== Event Listeners ======
@@ -115,6 +146,7 @@ async function loadUserCount() {
         const resp = await fetch(`${API_BASE_URL}/admin/users-count`, {
             headers: { Authorization: `Bearer ${idToken}` }
         });
+        if (!resp.ok) throw new Error(`User count request failed (${resp.status})`);
         const data = await resp.json();
         document.getElementById("stat-users").textContent = data.totalUsers || 0;
     } catch (err) {
@@ -130,12 +162,19 @@ function renderSubjectBars(subjects) {
     Object.entries(subjects).sort((a, b) => b[1] - a[1]).forEach(([s, c]) => {
         const row = document.createElement("div");
         row.className = "subject-bar-row";
-        row.innerHTML = `
-            <span class="subject-bar-label">${subjectNames[s] || s}</span>
-            <div class="subject-bar-track">
-                <div class="subject-bar-fill" style="width:${(c / max) * 100}%"></div>
-            </div>
-            <span class="subject-bar-count">${c}</span>`;
+        const label = document.createElement("span");
+        label.className = "subject-bar-label";
+        label.textContent = subjectNames[s] || s;
+        const track = document.createElement("div");
+        track.className = "subject-bar-track";
+        const fill = document.createElement("div");
+        fill.className = "subject-bar-fill";
+        fill.style.width = `${(c / max) * 100}%`;
+        track.appendChild(fill);
+        const count = document.createElement("span");
+        count.className = "subject-bar-count";
+        count.textContent = c;
+        row.append(label, track, count);
         container.appendChild(row);
     });
 }

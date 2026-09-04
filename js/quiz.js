@@ -1,8 +1,6 @@
 // ====== Configuration ======
 // Change this to your production server URL when deploying
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5500'
-    : 'https://codequiz-api.onrender.com';
+const API_BASE_URL = window.CODEQUIZ_API_BASE_URL;
 
 // ====== HTML Sanitizer (XSS Protection) ======
 const ALLOWED_TAGS = new Set([
@@ -93,10 +91,30 @@ class QuizApp {
         this.init();
     }
 
-    init() {
+    async init() {
+        await this.loadQuestions();
         this.loadSubjects();
         this.setupEventListeners();
         this.restoreQuizState();
+    }
+
+    async loadQuestions() {
+        if (!API_BASE_URL) return;
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/questions`);
+            if (!response.ok) throw new Error(`Question catalog request failed (${response.status})`);
+
+            const payload = await response.json();
+            if (!['firestore', 'memory'].includes(payload.source) || !payload.questions || typeof payload.questions !== 'object') {
+                return;
+            }
+
+            Object.keys(quizData).forEach(subject => delete quizData[subject]);
+            Object.assign(quizData, payload.questions);
+        } catch (error) {
+            console.warn('Using bundled quiz questions:', error.message);
+        }
     }
 
     persistQuizState() {
@@ -389,9 +407,13 @@ class QuizApp {
         this.addThinkingBubble();
 
         try {
+            const headers = { 'Content-Type': 'application/json' };
+            if (typeof window.codeQuizGetIdToken === 'function') {
+                headers.Authorization = `Bearer ${await window.codeQuizGetIdToken()}`;
+            }
             const response = await fetch(`${API_BASE_URL}/chat`, {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                headers,
                 body: JSON.stringify({
                     subject: subjectNames[this.currentSubject] || this.currentSubject,
                     questions: this.questions.map(q => ({ question: q.question })),
@@ -804,4 +826,4 @@ class QuizApp {
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.quizApp = new QuizApp();
-});
+});

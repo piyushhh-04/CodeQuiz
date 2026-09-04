@@ -200,6 +200,13 @@
     display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.85rem;
 }
 .btn-delete-row:hover { background: rgba(220,38,38,0.15); border-color: rgba(220,38,38,0.3); color: #fca5a5; }
+.btn-edit-row {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--border);
+    background: rgba(9,9,11,0.5); color: #a1a1aa; cursor: pointer;
+    display: inline-flex; align-items: center; justify-content: center; transition: all 0.2s;
+    font-size: 0.85rem; margin-right: 6px;
+}
+.btn-edit-row:hover { background: rgba(99,102,241,0.15); border-color: rgba(99,102,241,0.3); color: #a5b4fc; }
 
 /* ====== Modal ====== */
 .modal-overlay {
@@ -284,6 +291,18 @@
 .toast-notification i { font-size: 1.2rem; color: #6ee7b7; }
 .toast-error { border-color: rgba(220,38,38,0.3); }
 .toast-error i { color: #fca5a5; }
+
+.btn-edit-row:focus-visible,
+.btn-delete-row:focus-visible,
+.modal-close:focus-visible,
+.btn-cancel:focus-visible,
+.btn-save:focus-visible,
+.btn-delete-confirm:focus-visible,
+.topbar-btn:focus-visible,
+.btn-add:focus-visible {
+    outline: 3px solid var(--accent);
+    outline-offset: 3px;
+}
 
 @keyframes toastSlideIn { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 

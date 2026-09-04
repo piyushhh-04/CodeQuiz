@@ -117,7 +117,7 @@
 
     <!-- Add Question Modal -->
     <div id="question-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-container">
+            <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-title">
             <div class="modal-header">
                 <h3 id="modal-title"><i class="fas fa-plus-circle"></i> Add Question</h3>
                 <button class="modal-close" id="modal-close-btn" aria-label="Close">
@@ -178,9 +178,9 @@
 
     <!-- Delete Confirm Modal -->
     <div id="delete-modal" class="modal-overlay" style="display: none;">
-        <div class="modal-container modal-sm">
+        <div class="modal-container modal-sm" role="dialog" aria-modal="true" aria-labelledby="delete-modal-title">
             <div class="modal-header">
-                <h3><i class="fas fa-trash-alt"></i> Delete Question</h3>
+            <h3 id="delete-modal-title"><i class="fas fa-trash-alt"></i> Delete Question</h3>
                 <button class="modal-close" id="delete-modal-close" aria-label="Close">
                     <i class="fas fa-times"></i>
                 </button>
@@ -204,6 +204,7 @@
     </div>
 
     <script src="js/data.js"></script>
+    <script src="js/config.js"></script>
     <script type="module" src="js/admin-questions.js"></script>
 </body>
 

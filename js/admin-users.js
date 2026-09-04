@@ -6,9 +6,7 @@ import {
     getIdToken
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-const API_BASE_URL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'
-    ? 'http://localhost:5500'
-    : 'https://codequiz-ai-server.onrender.com';
+const API_BASE_URL = window.CODEQUIZ_API_BASE_URL;
 
 // ====== State ======
 let currentUser = null;
@@ -30,6 +28,7 @@ onAuthStateChanged(auth, async (user) => {
         const resp = await fetch(`${API_BASE_URL}/auth/check-admin`, {
             headers: { Authorization: `Bearer ${idToken}` }
         });
+        if (!resp.ok) throw new Error(`Admin check failed (${resp.status})`);
         const data = await resp.json();
         if (data.isAdmin) showPage(user);
         else showAccessDenied();
@@ -71,21 +70,36 @@ async function loadUsers() {
         const resp = await fetch(`${API_BASE_URL}/admin/users`, {
             headers: { Authorization: `Bearer ${idToken}` }
         });
+        if (!resp.ok) throw new Error(`User list request failed (${resp.status})`);
         const data = await resp.json();
         const tbody = document.getElementById("users-tbody");
         tbody.innerHTML = "";
 
+        if (!Array.isArray(data.users) || data.users.length === 0) {
+            loading.textContent = "No registered users found.";
+            return;
+        }
+
         data.users.forEach((user, i) => {
             const tr = document.createElement("tr");
-            tr.innerHTML = `
-                <td class="num-cell">${i + 1}</td>
-                <td class="user-email-cell">${user.email}</td>
-                <td>${formatDate(user.createdAt)}</td>
-                <td>${formatDate(user.lastSignIn)}</td>
-                <td>${user.isAdmin
-                    ? '<span class="role-badge role-admin"><i class="fas fa-shield-alt"></i> Admin</span>'
-                    : '<span class="role-badge role-user"><i class="fas fa-user"></i> User</span>'
-                }</td>`;
+            const numberCell = document.createElement("td");
+            numberCell.className = "num-cell";
+            numberCell.textContent = i + 1;
+            const emailCell = document.createElement("td");
+            emailCell.className = "user-email-cell";
+            emailCell.textContent = user.email || "No email";
+            const createdCell = document.createElement("td");
+            createdCell.textContent = formatDate(user.createdAt);
+            const activeCell = document.createElement("td");
+            activeCell.textContent = formatDate(user.lastSignIn);
+            const roleCell = document.createElement("td");
+            const roleBadge = document.createElement("span");
+            roleBadge.className = `role-badge ${user.isAdmin ? "role-admin" : "role-user"}`;
+            const roleIcon = document.createElement("i");
+            roleIcon.className = user.isAdmin ? "fas fa-shield-alt" : "fas fa-user";
+            roleBadge.append(roleIcon, document.createTextNode(user.isAdmin ? " Admin" : " User"));
+            roleCell.appendChild(roleBadge);
+            tr.append(numberCell, emailCell, createdCell, activeCell, roleCell);
             tbody.appendChild(tr);
         });
 
