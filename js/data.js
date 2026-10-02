@@ -914,6 +914,20 @@ const quizData = {
     ],
 };
 
+const difficultyConfig = {
+    beginner: { label: "Beginner", indicator: "Easy", timeLimit: 60, difficulty: "easy" },
+    intermediate: { label: "Intermediate", indicator: "Medium", timeLimit: 45, difficulty: "medium" },
+    advanced: { label: "Advanced", indicator: "Hard", timeLimit: 30, difficulty: "hard" }
+};
+
+Object.values(quizData).forEach(questions => {
+    questions.forEach((question, index) => {
+        question.difficulty = question.difficulty || Object.keys(difficultyConfig)[
+            Math.min(2, Math.floor(index / (questions.length / 3)))
+        ];
+    });
+});
+
 // Subject icons mapping
 const subjectIcons = {
     python: "fab fa-python",

@@ -116,6 +116,7 @@ function setupListeners() {
     });
 
     document.getElementById("filter-subject").addEventListener("change", renderQuestionsTable);
+    document.getElementById("filter-difficulty").addEventListener("change", renderQuestionsTable);
     document.getElementById("search-input").addEventListener("input", renderQuestionsTable);
 
     // Add question
@@ -171,6 +172,7 @@ function populateSubjectDatalist() {
 // ====== Questions Table ======
 function renderQuestionsTable() {
     const filterSubject = document.getElementById("filter-subject").value;
+    const filterDifficulty = document.getElementById("filter-difficulty").value;
     const search = document.getElementById("search-input").value.toLowerCase().trim();
     const tbody = document.getElementById("questions-tbody");
     const empty = document.getElementById("empty-state");
@@ -185,6 +187,8 @@ function renderQuestionsTable() {
     subjects.forEach(subject => {
         (quizData[subject] || []).forEach((q, idx) => {
             total++;
+            const difficulty = q.difficulty || "beginner";
+            if (filterDifficulty && difficulty !== filterDifficulty) return;
             if (search && !q.question.toLowerCase().includes(search)) return;
             count++;
 
@@ -197,6 +201,11 @@ function renderQuestionsTable() {
             subjectPill.className = "subject-pill";
             subjectPill.textContent = subjectNames[subject] || subject;
             subjectCell.appendChild(subjectPill);
+            const difficultyCell = document.createElement("td");
+            const difficultyPill = document.createElement("span");
+            difficultyPill.className = `question-difficulty difficulty-${difficulty}`;
+            difficultyPill.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+            difficultyCell.appendChild(difficultyPill);
             const questionCell = document.createElement("td");
             questionCell.className = "question-cell";
             questionCell.textContent = q.question;
@@ -219,7 +228,7 @@ function renderQuestionsTable() {
             deleteButton.dataset.id = q.id;
             deleteButton.innerHTML = '<i class="fas fa-trash-alt"></i>';
             actionsCell.append(editButton, deleteButton);
-            tr.append(numberCell, subjectCell, questionCell, correctCell, actionsCell);
+            tr.append(numberCell, subjectCell, difficultyCell, questionCell, correctCell, actionsCell);
             tbody.appendChild(tr);
         });
     });
@@ -234,6 +243,7 @@ function openAddModal() {
     editingQuestionId = null;
     document.getElementById("question-form").reset();
     document.getElementById("form-subject").disabled = false;
+    document.getElementById("form-difficulty").value = "beginner";
     document.getElementById("modal-title").innerHTML = '<i class="fas fa-plus-circle"></i> Add Question';
     document.getElementById("modal-save-btn").innerHTML = '<i class="fas fa-save"></i> Save Question';
     document.getElementById("question-modal").style.display = "flex";
@@ -251,6 +261,7 @@ function openEditModal(id) {
         document.getElementById(`form-option-${index}`).value = option;
     });
     document.getElementById("form-correct").value = question.correct;
+    document.getElementById("form-difficulty").value = question.difficulty || "beginner";
     document.getElementById("modal-title").innerHTML = '<i class="fas fa-pen"></i> Edit Question';
     document.getElementById("modal-save-btn").innerHTML = '<i class="fas fa-save"></i> Save Changes';
     document.getElementById("question-modal").style.display = "flex";
@@ -267,6 +278,7 @@ async function handleAddQuestion(e) {
     const question = document.getElementById("form-question").value.trim();
     const options = [0, 1, 2, 3].map(i => document.getElementById(`form-option-${i}`).value.trim());
     const correct = parseInt(document.getElementById("form-correct").value);
+    const difficulty = document.getElementById("form-difficulty").value;
 
     if (!rawSubject || !question || options.some(o => !o)) {
         showToast("Complete all question fields.", "error");
@@ -294,7 +306,7 @@ async function handleAddQuestion(e) {
                 Authorization: `Bearer ${idToken}`,
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ subject: subjectKey, question, options, correct })
+            body: JSON.stringify({ subject: subjectKey, question, options, correct, difficulty })
         });
         const data = await response.json();
         if (!response.ok) throw new Error(data.error || "Question could not be saved.");

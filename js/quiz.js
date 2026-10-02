@@ -65,6 +65,8 @@ class QuizApp {
     constructor() {
         // State
         this.currentSubject = '';
+        this.selectedDifficulty = '';
+        this.timeLimit = difficultyConfig.beginner.timeLimit;
         this.allQuestions = [];
         this.questions = [];
         this.currentQuestionIndex = 0;
@@ -72,7 +74,8 @@ class QuizApp {
         this.wrongCount = 0;
         this.score = 0;
         this.timer = null;
-        this.timeLeft = 30;
+        this.timeLeft = this.timeLimit;
+        this.resumeTimeLeft = null;
         this.startTime = null;
         this.totalTime = 0;
         this.selectedOption = null;
@@ -82,6 +85,7 @@ class QuizApp {
 
         // DOM Elements
         this.welcomeScreen = document.getElementById('welcome-screen');
+        this.difficultyScreen = document.getElementById('difficulty-screen');
         this.learningScreen = document.getElementById('learning-screen');
         this.quizScreen = document.getElementById('quiz-screen');
         this.scoreboardScreen = document.getElementById('scoreboard-screen');
@@ -94,6 +98,7 @@ class QuizApp {
     async init() {
         await this.loadQuestions();
         this.loadSubjects();
+        this.renderDifficultyTimeLimits();
         this.setupEventListeners();
         this.restoreQuizState();
     }
@@ -120,6 +125,11 @@ class QuizApp {
     persistQuizState() {
         saveQuizState({
             currentSubject: this.currentSubject,
+            selectedLanguage: this.currentSubject,
+            selectedDifficulty: this.selectedDifficulty,
+            timeLimit: this.timeLimit,
+            timeLeft: this.timeLeft,
+            currentQuestion: this.questions[this.currentQuestionIndex] || null,
             questions: this.questions,
             currentQuestionIndex: this.currentQuestionIndex,
             correctCount: this.correctCount,
@@ -140,7 +150,12 @@ class QuizApp {
             return;
         }
 
-        this.currentSubject = savedState.currentSubject || '';
+        this.currentSubject = savedState.currentSubject || savedState.selectedLanguage || '';
+        this.selectedDifficulty = Object.hasOwn(difficultyConfig, savedState.selectedDifficulty)
+            ? savedState.selectedDifficulty
+            : 'beginner';
+        this.timeLimit = difficultyConfig[this.selectedDifficulty].timeLimit;
+        this.resumeTimeLeft = Number.isInteger(savedState.timeLeft) ? savedState.timeLeft : null;
         this.questions = Array.isArray(savedState.questions) ? savedState.questions : [];
         this.currentQuestionIndex = Number.isInteger(savedState.currentQuestionIndex) ? savedState.currentQuestionIndex : 0;
         this.correctCount = Number.isInteger(savedState.correctCount) ? savedState.correctCount : 0;
@@ -158,16 +173,20 @@ class QuizApp {
         }
 
         const subjectLabel = subjectNames[this.currentSubject] || this.currentSubject;
-        document.getElementById('current-subject').textContent = subjectLabel;
-        document.getElementById('learning-subject').textContent = subjectLabel;
+        this.updateSelectionLabels();
 
         if (this.currentScreen === 'learning') {
+            this.welcomeScreen.classList.remove('active');
+            this.difficultyScreen.classList.remove('active');
+            this.quizScreen.classList.remove('active');
+            this.scoreboardScreen.classList.remove('active');
             this.showLearningScreen();
             return;
         }
 
         if (this.currentScreen === 'quiz') {
             this.welcomeScreen.classList.remove('active');
+            this.difficultyScreen.classList.remove('active');
             this.learningScreen.classList.remove('active');
             this.scoreboardScreen.classList.remove('active');
             this.quizScreen.classList.add('active');
@@ -194,6 +213,14 @@ class QuizApp {
         });
     }
 
+    renderDifficultyTimeLimits() {
+        document.querySelectorAll('.difficulty-card').forEach(card => {
+            const config = difficultyConfig[card.dataset.difficulty];
+            const timeLabel = card.querySelector('.difficulty-time-value');
+            if (config && timeLabel) timeLabel.textContent = `${config.timeLimit} seconds per question`;
+        });
+    }
+
     createSubjectCard(subject) {
         const card = document.createElement('div');
         card.className = 'subject-card';
@@ -216,11 +243,11 @@ class QuizApp {
         card.appendChild(title);
         card.appendChild(count);
 
-        card.addEventListener('click', () => this.startQuiz(subject));
+        card.addEventListener('click', () => this.selectLanguage(subject));
         card.addEventListener('keydown', (e) => {
             if (e.key === 'Enter' || e.key === ' ') {
                 e.preventDefault();
-                this.startQuiz(subject);
+                this.selectLanguage(subject);
             }
         });
 
@@ -235,7 +262,19 @@ class QuizApp {
 
         // Back button (learning screen)
         document.getElementById('learning-back-btn').addEventListener('click', () => {
+            this.showDifficultyScreen();
+        });
+
+        document.getElementById('difficulty-back-btn').addEventListener('click', () => {
             this.showWelcomeScreen();
+        });
+
+        document.querySelectorAll('.difficulty-card').forEach(card => {
+            card.addEventListener('click', () => this.selectDifficulty(card.dataset.difficulty));
+        });
+
+        document.getElementById('difficulty-continue-btn').addEventListener('click', () => {
+            this.startQuiz(this.currentSubject, this.selectedDifficulty);
         });
 
         // Start quiz button (learning screen)
@@ -245,7 +284,7 @@ class QuizApp {
 
         // Play again button
         document.getElementById('play-again-btn').addEventListener('click', () => {
-            this.startQuiz(this.currentSubject);
+            this.startQuiz(this.currentSubject, this.selectedDifficulty);
         });
 
         // New subject button
@@ -267,13 +306,65 @@ class QuizApp {
         });
     }
 
-    startQuiz(subject) {
+    selectLanguage(subject) {
+        this.currentSubject = subject;
+        this.selectedDifficulty = '';
+        this.timeLimit = 0;
+        document.querySelectorAll('.difficulty-card').forEach(card => {
+            card.classList.remove('selected');
+            card.setAttribute('aria-pressed', 'false');
+        });
+        document.getElementById('difficulty-continue-btn').disabled = true;
+        document.getElementById('difficulty-question-count').textContent = 'Choose a level to continue';
+        document.getElementById('difficulty-subject').textContent = subjectNames[subject] || subject;
+        this.showDifficultyScreen();
+    }
+
+    selectDifficulty(difficulty) {
+        if (!Object.hasOwn(difficultyConfig, difficulty)) return;
+        this.selectedDifficulty = difficulty;
+        this.timeLimit = difficultyConfig[difficulty].timeLimit;
+        const questionCount = (quizData[this.currentSubject] || [])
+            .filter(question => question.difficulty === difficulty).length;
+
+        document.querySelectorAll('.difficulty-card').forEach(card => {
+            const selected = card.dataset.difficulty === difficulty;
+            card.classList.toggle('selected', selected);
+            card.setAttribute('aria-pressed', String(selected));
+        });
+        document.getElementById('difficulty-question-count').textContent =
+            `${questionCount} questions · ${this.timeLimit} seconds each`;
+        document.getElementById('difficulty-continue-btn').disabled = questionCount === 0;
+    }
+
+    updateSelectionLabels() {
+        const subjectLabel = subjectNames[this.currentSubject] || this.currentSubject;
+        const difficultyLabel = difficultyConfig[this.selectedDifficulty]?.label || '';
+        const selectionLabel = difficultyLabel ? `${subjectLabel} · ${difficultyLabel}` : subjectLabel;
+        document.getElementById('current-subject').textContent = selectionLabel;
+        document.getElementById('learning-subject').textContent = selectionLabel;
+    }
+
+    startQuiz(subject, difficulty) {
+        if (!subject || !Object.hasOwn(difficultyConfig, difficulty)) {
+            this.showWelcomeScreen();
+            return;
+        }
+
         // Reset state
         this.currentSubject = subject;
-        this.allQuestions = quizData[subject];
+        this.selectedDifficulty = difficulty;
+        this.timeLimit = difficultyConfig[difficulty].timeLimit;
+        this.timeLeft = this.timeLimit;
+        this.resumeTimeLeft = null;
+        this.allQuestions = (quizData[subject] || []).filter(question => question.difficulty === difficulty);
 
-        // Select random 10 questions from 30
+        // Select up to 10 questions from this subject and difficulty.
         this.questions = this.getRandomQuestions(10);
+        if (!this.questions.length) {
+            this.showDifficultyScreen();
+            return;
+        }
         this.currentQuestionIndex = 0;
         this.correctCount = 0;
         this.wrongCount = 0;
@@ -285,8 +376,7 @@ class QuizApp {
         this.chatHistory = [];
 
         // Update UI
-        document.getElementById('current-subject').textContent = subjectNames[subject];
-        document.getElementById('learning-subject').textContent = subjectNames[subject];
+        this.updateSelectionLabels();
         this.showQuizTip();
 
         // Show learning screen (chat)
@@ -298,6 +388,7 @@ class QuizApp {
 
         // Switch to learning screen
         this.welcomeScreen.classList.remove('active');
+        this.difficultyScreen.classList.remove('active');
         this.quizScreen.classList.remove('active');
         this.scoreboardScreen.classList.remove('active');
         this.learningScreen.classList.add('active');
@@ -416,6 +507,7 @@ class QuizApp {
                 headers,
                 body: JSON.stringify({
                     subject: subjectNames[this.currentSubject] || this.currentSubject,
+                    difficulty: difficultyConfig[this.selectedDifficulty].label,
                     questions: this.questions.map(q => ({ question: q.question })),
                     history: this.chatHistory
                 })
@@ -461,6 +553,7 @@ class QuizApp {
     showQuizScreen() {
         this.currentScreen = 'quiz';
         this.learningScreen.classList.remove('active');
+        this.difficultyScreen.classList.remove('active');
         this.welcomeScreen.classList.remove('active');
         this.quizScreen.classList.add('active');
 
@@ -529,7 +622,9 @@ class QuizApp {
         this.updateProgress();
 
         // Start timer
-        this.startTimer();
+        const initialTime = this.resumeTimeLeft ?? this.timeLimit;
+        this.resumeTimeLeft = null;
+        this.startTimer(initialTime);
     }
 
     selectOption(index) {
@@ -581,8 +676,9 @@ class QuizApp {
         clearInterval(this.timer);
 
         // Save progress after each answer
-        this.totalTime += (30 - this.timeLeft);
+        this.totalTime += (this.timeLimit - this.timeLeft);
         this.currentQuestionIndex++;
+        this.timeLeft = this.timeLimit;
         this.persistQuizState();
 
         // Auto move to next question after 1.5 seconds
@@ -591,13 +687,14 @@ class QuizApp {
         }, 1500);
     }
 
-    startTimer() {
-        this.timeLeft = 30;
+    startTimer(initialTime = this.timeLimit) {
+        this.timeLeft = initialTime;
         this.updateTimerDisplay();
 
         this.timer = setInterval(() => {
             this.timeLeft--;
             this.updateTimerDisplay();
+            this.persistQuizState();
 
             if (this.timeLeft <= 0) {
                 clearInterval(this.timer);
@@ -626,8 +723,9 @@ class QuizApp {
                     });
 
                     // Save progress
-                    this.totalTime += 30;
+                    this.totalTime += this.timeLimit;
                     this.currentQuestionIndex++;
+                    this.timeLeft = this.timeLimit;
                     this.persistQuizState();
 
                     setTimeout(() => {
@@ -650,7 +748,7 @@ class QuizApp {
 
         // Add warning class
         const timerBadge = document.querySelector('.timer-badge');
-        if (this.timeLeft <= 10) {
+        if (this.timeLeft <= Math.min(10, Math.ceil(this.timeLimit / 3))) {
             timerBadge.classList.add('warning');
         } else {
             timerBadge.classList.remove('warning');
@@ -716,6 +814,8 @@ class QuizApp {
         document.getElementById('results-emoji').textContent = emoji;
         document.getElementById('results-title').textContent = title;
         document.getElementById('results-subtitle').textContent = subtitle;
+        document.getElementById('results-difficulty').textContent =
+            `${subjectNames[this.currentSubject] || this.currentSubject} · ${difficultyConfig[this.selectedDifficulty]?.label || 'Beginner'}`;
 
         // Stats
         document.getElementById('final-accuracy').textContent = `${accuracy}%`;
@@ -817,13 +917,24 @@ class QuizApp {
         this.resetTimer();
         this.currentScreen = 'welcome';
         this.welcomeScreen.classList.add('active');
+        this.difficultyScreen.classList.remove('active');
         this.learningScreen.classList.remove('active');
         this.quizScreen.classList.remove('active');
         this.scoreboardScreen.classList.remove('active');
+    }
+
+    showDifficultyScreen() {
+        this.resetTimer();
+        this.currentScreen = 'difficulty';
+        this.welcomeScreen.classList.remove('active');
+        this.learningScreen.classList.remove('active');
+        this.quizScreen.classList.remove('active');
+        this.scoreboardScreen.classList.remove('active');
+        this.difficultyScreen.classList.add('active');
     }
 }
 
 // Initialize the app when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
     window.quizApp = new QuizApp();
-});
+});

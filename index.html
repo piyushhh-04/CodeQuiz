@@ -55,6 +55,58 @@
         </div>
     </div>
 
+    <!-- Difficulty Selection -->
+    <div id="difficulty-screen" class="screen">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-10">
+                    <div class="difficulty-panel">
+                        <div class="difficulty-header">
+                            <button id="difficulty-back-btn" class="back-btn" aria-label="Back to programming languages">
+                                <i class="fas fa-arrow-left" aria-hidden="true"></i>
+                                <span>Languages</span>
+                            </button>
+                            <div>
+                                <p class="difficulty-eyebrow">ASSESSMENT LEVEL</p>
+                                <h2 class="difficulty-title">Choose your difficulty</h2>
+                                <p class="difficulty-subtitle">Select a level for <strong id="difficulty-subject">Python</strong></p>
+                            </div>
+                        </div>
+                        <div class="difficulty-grid" role="group" aria-label="Choose a difficulty level">
+                            <button class="difficulty-card beginner" type="button" data-difficulty="beginner" aria-pressed="false">
+                                <span class="difficulty-indicator"><span></span> Easy</span>
+                                <strong>Beginner</strong>
+                                <span class="difficulty-description">Core concepts, clear syntax, and straightforward logic.</span>
+                                <span class="difficulty-meta"><i class="far fa-clock" aria-hidden="true"></i> <span class="difficulty-time-value"></span></span>
+                                <span class="difficulty-meta"><i class="fas fa-user-graduate" aria-hidden="true"></i> New to this language</span>
+                            </button>
+                            <button class="difficulty-card intermediate" type="button" data-difficulty="intermediate" aria-pressed="false">
+                                <span class="difficulty-indicator"><span></span> Medium</span>
+                                <strong>Intermediate</strong>
+                                <span class="difficulty-description">Combine concepts, reason through logic, and handle edge cases.</span>
+                                <span class="difficulty-meta"><i class="far fa-clock" aria-hidden="true"></i> <span class="difficulty-time-value"></span></span>
+                                <span class="difficulty-meta"><i class="fas fa-user-graduate" aria-hidden="true"></i> Comfortable with fundamentals</span>
+                            </button>
+                            <button class="difficulty-card advanced" type="button" data-difficulty="advanced" aria-pressed="false">
+                                <span class="difficulty-indicator"><span></span> Hard</span>
+                                <strong>Advanced</strong>
+                                <span class="difficulty-description">Deeper concepts, complex reasoning, and challenging edge cases.</span>
+                                <span class="difficulty-meta"><i class="far fa-clock" aria-hidden="true"></i> <span class="difficulty-time-value"></span></span>
+                                <span class="difficulty-meta"><i class="fas fa-user-graduate" aria-hidden="true"></i> Experienced programmers</span>
+                            </button>
+                        </div>
+                        <div class="difficulty-footer">
+                            <span id="difficulty-question-count">Choose a level to continue</span>
+                            <button id="difficulty-continue-btn" class="btn-start-quiz" type="button" disabled>
+                                <i class="fas fa-arrow-right" aria-hidden="true"></i> Continue to AI Tutor
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Learning Screen (AI Chat) -->
     <div id="learning-screen" class="screen">
         <div class="container">
@@ -169,6 +221,7 @@
                             <span class="results-emoji" id="results-emoji">🏆</span>
                             <h2 class="results-title" id="results-title">Quiz Master!</h2>
                             <p class="results-subtitle" id="results-subtitle">Outstanding performance!</p>
+                            <p class="results-difficulty" id="results-difficulty"></p>
                         </div>
 
                         <!-- Stats Row -->
@@ -287,4 +340,4 @@
     </script>
 </body>
 
-</html>
+</html>
