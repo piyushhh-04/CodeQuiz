@@ -311,7 +311,14 @@
         import { auth } from "./js/firebase.js";
         import { signOut, onAuthStateChanged, getIdTokenResult } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
+        let resolveAuthReady;
+        window.codeQuizAuthReady = new Promise((resolve) => {
+            resolveAuthReady = resolve;
+        });
+
         onAuthStateChanged(auth, async (user) => {
+            resolveAuthReady(user);
+
             if (user) {
                 window.codeQuizGetIdToken = () => user.getIdToken();
                 document.getElementById('user-bar').style.display = 'flex';

@@ -499,7 +499,11 @@ class QuizApp {
 
         try {
             const headers = { 'Content-Type': 'application/json' };
-            if (typeof window.codeQuizGetIdToken === 'function') {
+            if (window.codeQuizAuthReady) {
+                const user = await window.codeQuizAuthReady;
+                if (!user || typeof window.codeQuizGetIdToken !== 'function') {
+                    throw new Error('Authentication is not ready.');
+                }
                 headers.Authorization = `Bearer ${await window.codeQuizGetIdToken()}`;
             }
             const response = await fetch(`${API_BASE_URL}/chat`, {
