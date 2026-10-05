@@ -304,6 +304,13 @@
     <script src="js/utils.js"></script>
     <script src="js/dialog.js"></script>
     <script src="js/config.js"></script>
+    <script>
+        const quizSessionKey = 'codeQuizSessionInitialized';
+        if (sessionStorage.getItem(quizSessionKey) === null) {
+            localStorage.removeItem('quizState');
+            sessionStorage.setItem(quizSessionKey, 'true');
+        }
+    </script>
     <script src="js/quiz.js"></script>
 
     <!-- Auth Guard -->
