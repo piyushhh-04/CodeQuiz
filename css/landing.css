@@ -151,13 +151,6 @@ img {
     color: var(--text);
 }
 
-.nav-logo img {
-    width: 144px;
-    height: 48px;
-    object-fit: contain;
-    border-radius: 8px;
-}
-
 .nav-logo i {
     background: linear-gradient(135deg, var(--accent), var(--accent-deep));
     -webkit-background-clip: text;
