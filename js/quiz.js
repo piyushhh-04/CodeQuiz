@@ -236,12 +236,7 @@ class QuizApp {
         const title = document.createElement('h3');
         title.textContent = subjectNames[subject] || subject;
 
-        const count = document.createElement('p');
-        count.textContent = subjectDescriptions[subject] || '30 Questions';
-
-        card.appendChild(icon);
-        card.appendChild(title);
-        card.appendChild(count);
+        card.append(icon, title);
 
         card.addEventListener('click', () => this.selectLanguage(subject));
         card.addEventListener('keydown', (e) => {
